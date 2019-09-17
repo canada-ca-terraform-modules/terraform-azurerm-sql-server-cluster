@@ -207,7 +207,7 @@ resource "azurerm_virtual_machine_extension" "CreateFileShareWitness" {
   depends_on = [module.sqlvmw, azurerm_storage_account.sqlbackup]
   settings = <<SETTINGS
             {
-                "modulesURL": "https://raw.githubusercontent.com/canada-ca-azure-templates/sql-server-cluster/master/template/DSC/CreateFileShareWitness.ps1.zip",
+                "modulesURL": "https://raw.githubusercontent.com/canada-ca-terraform-modules/terraform-azurerm-sql-server-cluster/20190917.1/DSC/CreateFileShareWitness.ps1.zip",
                     "configurationFunction": "CreateFileShareWitness.ps1\\CreateFileShareWitness",
                     "properties": {
                         "domainName": "${var.adConfig.domainName}",
@@ -242,7 +242,7 @@ resource "azurerm_virtual_machine_extension" "PrepareAlwaysOn" {
   depends_on = [azurerm_virtual_machine_extension.CreateFileShareWitness,module.sqlvm1,azurerm_template_deployment.sqlvm]
   settings = <<SETTINGS
             {
-                "modulesURL": "https://raw.githubusercontent.com/canada-ca-azure-templates/sql-server-cluster/master/template/DSC/PrepareAlwaysOnSqlServer.ps1.zip",
+                "modulesURL": "https://raw.githubusercontent.com/canada-ca-terraform-modules/terraform-azurerm-sql-server-cluster/20190917.1/DSC/PrepareAlwaysOnSqlServer.ps1.zip",
                 "configurationFunction": "PrepareAlwaysOnSqlServer.ps1\\PrepareAlwaysOnSqlServer",
                 "properties": {
                     "domainName": "${var.adConfig.domainName}",
@@ -290,7 +290,7 @@ resource "azurerm_virtual_machine_extension" "CreateFailOverCluster" {
   settings = <<SETTINGS
             {
                 
-                "modulesURL": "https://raw.githubusercontent.com/canada-ca-azure-templates/sql-server-cluster/20190604/template/DSC/CreateFailoverCluster.ps1.zip",
+                "modulesURL": "https://raw.githubusercontent.com/canada-ca-terraform-modules/terraform-azurerm-sql-server-cluster/20190917.1/DSC/CreateFailoverCluster.ps1.zip",
                 "configurationFunction": "CreateFailoverCluster.ps1\\CreateFailoverCluster",
                 "properties": {
                     "domainName": "${var.adConfig.domainName}",
