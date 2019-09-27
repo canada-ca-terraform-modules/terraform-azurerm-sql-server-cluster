@@ -87,16 +87,16 @@
     "variables": {},
     "resources": [
         {
-            "name": "[concat(parameters('sqlVMName'),copyIndex(1))]",
+            "name": "[concat(parameters('sqlVMName'),'00',copyIndex(1),'-vm')]",
             "type": "Microsoft.SqlVirtualMachine/SqlVirtualMachines",
             "apiVersion": "2017-03-01-preview",
             "copy": { 
                 "name": "vmcopy", 
-                "count": 2
+                "count": 2  
               }, 
             "location": "[parameters('location')]",
             "properties": {
-                "virtualMachineResourceId": "[resourceId('Microsoft.Compute/virtualMachines', concat(parameters('sqlVMName'),copyIndex(1)))]",
+                "virtualMachineResourceId": "[resourceId('Microsoft.Compute/virtualMachines', concat(parameters('sqlVMName'),'00',copyIndex(1),'-vm'))]",
                 "SqlServerLicenseType": "[parameters('sqlServerLicenseType')]",
                 "AutoPatchingSettings": {
                     "Enable": "[parameters('sqlAutopathingEnabled')]",
