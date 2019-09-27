@@ -45,23 +45,18 @@ variable "dnsServerName" {
 
 variable "sqlServerConfig" {
     default = {
-        clusterIp = "169.254.1.5"
+        clusterIp = "169.254.1.15"
         sqlLBIPAddress = "10.250.29.14"
-        sqlLBName = "PwS3TSQL-B"
+        sqlLBName = "TST-SWB"
         sqlAOListenerPort = "1433"
         vmSize = "Standard_DS3_v2"
-        vmName = "PwS3TSTSQL"
+        vmName = "TST-SWB"
         sqlServerLicenseType = "AHUB"
         sqlpatchingConfig = {
             patchingEnabled = true
             dayOfWeek = "Sunday"
             maintenanceWindowStartingHour = "2"
             maintenanceWindowDuration = 60
-        }
-        backupConfig = {
-            backupEnabled = true
-            RetentionPeriod = 30
-            EnableEncryption = true
         }
         sqlBackupConfig = {
             backupEnabled = true
@@ -87,7 +82,7 @@ variable "sqlServerConfig" {
         }
         workloadType = "OLTP"
         sqlServerServiceAccountUserName = "svc-tstsql1"
-        sqlStorageAccountName = "tstsqlstorage1"
+        sqlStorageAccountName = "tstsqltest1stg"
         storageAccountTier = "Standard"
         storageAccountReplicationType = "LRS"
         diagBlobEncryptionEnabled = true
@@ -100,7 +95,7 @@ variable "sqlServerConfig" {
 variable "witnessServerConfig" {
     default = {
         vmSize = "Standard_DS2_v2"
-        vmName = "PwS3TSTSQLW"
+        vmName = "TST-SVR"
         imageReference = {
             publisher = "MicrosoftWindowsServer"
             offer = "WindowsServer"
@@ -120,8 +115,8 @@ variable "witnessServerConfig" {
 variable "adConfig" {
     default = {
         "domainName": "shared.pws3.pspc-spac.ca",
-                "serverOUPath":"OU=Servers,OU=DG2,OU=GCCASE,OU=GCPS,OU=Applications,OU=PSPC,DC=shared,DC=pws3,DC=pspc-spac,DC=ca",
-                "accountOUPath": "OU=Service Accounts,OU=DG2,OU=GCCASE,OU=GCPS,OU=Applications,OU=PSPC,DC=shared,DC=pws3,DC=pspc-spac,DC=ca"
+        "serverOUPath":"OU=Servers,OU=DG2,OU=GCCASE,OU=GCPS,OU=Applications,OU=PSPC,DC=shared,DC=pws3,DC=pspc-spac,DC=ca",
+        "accountOUPath": "OU=Service Accounts,OU=DG2,OU=GCCASE,OU=GCPS,OU=Applications,OU=PSPC,DC=shared,DC=pws3,DC=pspc-spac,DC=ca"
     }
 }
 
@@ -144,3 +139,4 @@ variable "tagValues" {
         "version" = "0.1"
     }
 }
+
