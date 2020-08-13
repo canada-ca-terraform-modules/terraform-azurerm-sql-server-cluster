@@ -38,7 +38,7 @@ The deployment assumes the following items are already deployed:
 
 ```terraform
 module "sql-server-cluster" {
-    source = "github.com/canada-ca-terraform-modules/terraform-azurerm-sql-server-cluster?ref=20190927.1"
+    source = "github.com/canada-ca-terraform-modules/terraform-azurerm-sql-server-cluster?ref=20200813.1"
 
     resource_group_name = "pws3-test-sql-cluster-rg"
     keyVaultConfig = {
@@ -146,88 +146,88 @@ module "sql-server-cluster" {
 
 ### Main Template
 
-|Name        |Type   |Required |Value                               |
-|------------|-------|---------|------------------------------------|
-|containerSasToken |string |No      |A SaS token for the private blob storage |
-|keyVaultConfig |object |Yes      |Information about the existing keyVault to use[KeyVaultConfig Object](###keyvaultconfig-object) |
-|vnetConfig|object |Yes      |Information about the existing vnet to use[vnetConfig Object](###vnetconfig-object) |
-|location|string |No      |The location to deploy the resources - canadacentral, canadaeast.  Default is canadacentral |
-|adminUserName|string |Yes      |The local administrator name to use for the VM. |
-|domainUserName|string |Yes      |The local administrator name to use for joining the domain and creating the service accounts. |
-|dnsServerName|string |Yes      |The existing DNS Server name. |
-|sqlServerConfig|object |Yes      |The SQL Server configuration options for the primary and secondary server- [sqlServerConfig object](###sqlserverconfig-object) |
-|witnessServerConfig|object |Yes      |The SQL witness configuration options - [witnessServerConfig object](###witnessserverconfig-object). |
-|adConfig|string |object      |The Active Directory configuration. - [adConfig object](###adconfig-object) |
-|backupConfig|object |Yes      |The backup configuration. [backupConfig Object](###backupconfig-object) |
-|tagValues|object |No     |The tags to set for the deployment.  - [tagValues object](###tagvalues-object) |
+| Name                | Type   | Required | Value                                                                                                                          |
+| ------------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| containerSasToken   | string | No       | A SaS token for the private blob storage                                                                                       |
+| keyVaultConfig      | object | Yes      | Information about the existing keyVault to use[KeyVaultConfig Object](###keyvaultconfig-object)                                |
+| vnetConfig          | object | Yes      | Information about the existing vnet to use[vnetConfig Object](###vnetconfig-object)                                            |
+| location            | string | No       | The location to deploy the resources - canadacentral, canadaeast.  Default is canadacentral                                    |
+| adminUserName       | string | Yes      | The local administrator name to use for the VM.                                                                                |
+| domainUserName      | string | Yes      | The local administrator name to use for joining the domain and creating the service accounts.                                  |
+| dnsServerName       | string | Yes      | The existing DNS Server name.                                                                                                  |
+| sqlServerConfig     | object | Yes      | The SQL Server configuration options for the primary and secondary server- [sqlServerConfig object](###sqlserverconfig-object) |
+| witnessServerConfig | object | Yes      | The SQL witness configuration options - [witnessServerConfig object](###witnessserverconfig-object).                           |
+| adConfig            | string | object   | The Active Directory configuration. - [adConfig object](###adconfig-object)                                                    |
+| backupConfig        | object | Yes      | The backup configuration. [backupConfig Object](###backupconfig-object)                                                        |
+| tagValues           | object | No       | The tags to set for the deployment.  - [tagValues object](###tagvalues-object)                                                 |
 
 ### KeyVaultConfig object
 
-|Name        |Type   |Required |Value                               |
-|------------|-------|---------|------------------------------------|
-|existingRGName |string|Yes|The name of the existing keyvault resource group |
-|existingVaultName|string|Yes| The name of the existing keyvault to use      |
-|localAdminPasswordSecret|string|Yes|The name of the secret where the password is stored for local admin password|
-|domainAdminPasswordSecret|string|Yes|The name of the secret where the password is stored for a domain account that can be used to create service accounts and to join the domain|
+| Name                      | Type   | Required | Value                                                                                                                                       |
+| ------------------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| existingRGName            | string | Yes      | The name of the existing keyvault resource group                                                                                            |
+| existingVaultName         | string | Yes      | The name of the existing keyvault to use                                                                                                    |
+| localAdminPasswordSecret  | string | Yes      | The name of the secret where the password is stored for local admin password                                                                |
+| domainAdminPasswordSecret | string | Yes      | The name of the secret where the password is stored for a domain account that can be used to create service accounts and to join the domain |
 
 ### vnetConfig object
 
-|Name        |Type   |Required |Value                               |
-|------------|-------|---------|------------------------------------|
-|existingVnetName|string|Yes|The name of the existing virtual network where sql will reside|
-|existingVnetRG|string|Yes|The name of the existing virtual network resource group|
-|sqlSubnet|string|Yes|The subnet address range for where SQL will reside|
-|dbSubnetName|string|Yes|The name of the subnet where SQL will reside|
+| Name             | Type   | Required | Value                                                          |
+| ---------------- | ------ | -------- | -------------------------------------------------------------- |
+| existingVnetName | string | Yes      | The name of the existing virtual network where sql will reside |
+| existingVnetRG   | string | Yes      | The name of the existing virtual network resource group        |
+| sqlSubnet        | string | Yes      | The subnet address range for where SQL will reside             |
+| dbSubnetName     | string | Yes      | The name of the subnet where SQL will reside                   |
 
 ### sqlServerConfig object
 
-|Name        |Type   |Required |Value                               |
-|------------|-------|---------|------------------------------------|
-|ClusterIp|string|Yes|The IP to use for the SQL cluster. |
-|sqlLBIPAddress|string|Yes|The IP to use for the SQL load balencer|
-|sqlLBName|string|Yes|The name to use for the SQL load balencer|
-|sqlAOListenerPort|string|Yes|The port for the alwayson listener|
-|deploymentPrefix|string|Yes|The deployment prefix to use for the naming standard of the objects.|
-|vmSize|enum|Yes|Specifies the size of the virtual machine. For more information about virtual machine sizes, see [Sizes for virtual machines](<https://docs.microsoft.com/en-us/azure/templates/microsoft.compute/2019-03-01/virtualmachines#HardwareProfile>).|
-|vmName"|string|Yes|The name of the VM to use|
-|patchingConfig|object|Yes|The patching settings for the VM - [patchingConfig oject](###patchingconfig-object)|
-|sqlBackupConfig|object|Yes|The backup settings for the VM - [sqlBackupConfig oject](###sqlbackupconfig-object)|
-|imageReference|object|Yes|The image settings for the VM - [imageReference object](###imagereference-object)|
-|dataDisks|object|Yes|The data disk settings for the VM - [dataDisks object](###datadisks-object)|
-|workloadType|enum|Yes|The workload type for SQL - GENERAL, OLTP, DW|
-|sqlServerServiceAccountUserName|string|Yes|The name to use for the SQL service account|
-|sqlStorageAccountName|string|Yes|The name of the storage account for SQL|
-|sqlStorageAccountType|enum|Yes|The storage type to use for the disks -  Standard_LRS, Premium_LRS, StandardSSD_LRS, UltraSSD_LRS |
-|sqlDatabases|string|Yes|The name of the first database to create with always on|
-|sqlServerServiceAccountPassword|string|Yes|The name of the keyvault secret where service account password is stored |
-|enableAcceleratedNetworking|bool|Yes|Indicates if to use accelerated networking or not.|
+| Name                            | Type   | Required | Value                                                                                                                                                                                                                                           |
+| ------------------------------- | ------ | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ClusterIp                       | string | Yes      | The IP to use for the SQL cluster.                                                                                                                                                                                                              |
+| sqlLBIPAddress                  | string | Yes      | The IP to use for the SQL load balencer                                                                                                                                                                                                         |
+| sqlLBName                       | string | Yes      | The name to use for the SQL load balencer                                                                                                                                                                                                       |
+| sqlAOListenerPort               | string | Yes      | The port for the alwayson listener                                                                                                                                                                                                              |
+| deploymentPrefix                | string | Yes      | The deployment prefix to use for the naming standard of the objects.                                                                                                                                                                            |
+| vmSize                          | enum   | Yes      | Specifies the size of the virtual machine. For more information about virtual machine sizes, see [Sizes for virtual machines](<https://docs.microsoft.com/en-us/azure/templates/microsoft.compute/2019-03-01/virtualmachines#HardwareProfile>). |
+| vmName"                         | string | Yes      | The name of the VM to use                                                                                                                                                                                                                       |
+| patchingConfig                  | object | Yes      | The patching settings for the VM - [patchingConfig oject](###patchingconfig-object)                                                                                                                                                             |
+| sqlBackupConfig                 | object | Yes      | The backup settings for the VM - [sqlBackupConfig oject](###sqlbackupconfig-object)                                                                                                                                                             |
+| imageReference                  | object | Yes      | The image settings for the VM - [imageReference object](###imagereference-object)                                                                                                                                                               |
+| dataDisks                       | object | Yes      | The data disk settings for the VM - [dataDisks object](###datadisks-object)                                                                                                                                                                     |
+| workloadType                    | enum   | Yes      | The workload type for SQL - GENERAL, OLTP, DW                                                                                                                                                                                                   |
+| sqlServerServiceAccountUserName | string | Yes      | The name to use for the SQL service account                                                                                                                                                                                                     |
+| sqlStorageAccountName           | string | Yes      | The name of the storage account for SQL                                                                                                                                                                                                         |
+| sqlStorageAccountType           | enum   | Yes      | The storage type to use for the disks -  Standard_LRS, Premium_LRS, StandardSSD_LRS, UltraSSD_LRS                                                                                                                                               |
+| sqlDatabases                    | string | Yes      | The name of the first database to create with always on                                                                                                                                                                                         |
+| sqlServerServiceAccountPassword | string | Yes      | The name of the keyvault secret where service account password is stored                                                                                                                                                                        |
+| enableAcceleratedNetworking     | bool   | Yes      | Indicates if to use accelerated networking or not.                                                                                                                                                                                              |
 
 ### witnessServerConfig object
 
-|Name        |Type   |Required |Value                               |
-|------------|-------|---------|------------------------------------|
-|vmSize|enum|Yes|Specifies the size of the virtual machine. For more information about virtual machine sizes, see [Sizes for virtual machines](<https://docs.microsoft.com/en-us/azure/templates/microsoft.compute/2019-03-01/virtualmachines#HardwareProfile>).|
-|vmName|string|Yes|The name of the SQL cluster.|
-|imageReference|object|Yes|The image settings for the VM - [imageReference object](###imagereference-object)|
-|dataDisks|object|Yes|The data disk settings for the VM - [dataDisks object](###datadisks-object)|
-|sqlStorageAccountType|enum|Yes|The type of storage to use. - Standard_LRS, Standard_GRS, Standard_RAGRS, Standard_ZRS, Premium_LRS, Premium_ZRS|
-|enableAcceleratedNetworking|bool|Yes|Indicates if to use accelerated networking or not.|
+| Name                        | Type   | Required | Value                                                                                                                                                                                                                                           |
+| --------------------------- | ------ | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| vmSize                      | enum   | Yes      | Specifies the size of the virtual machine. For more information about virtual machine sizes, see [Sizes for virtual machines](<https://docs.microsoft.com/en-us/azure/templates/microsoft.compute/2019-03-01/virtualmachines#HardwareProfile>). |
+| vmName                      | string | Yes      | The name of the SQL cluster.                                                                                                                                                                                                                    |
+| imageReference              | object | Yes      | The image settings for the VM - [imageReference object](###imagereference-object)                                                                                                                                                               |
+| dataDisks                   | object | Yes      | The data disk settings for the VM - [dataDisks object](###datadisks-object)                                                                                                                                                                     |
+| sqlStorageAccountType       | enum   | Yes      | The type of storage to use. - Standard_LRS, Standard_GRS, Standard_RAGRS, Standard_ZRS, Premium_LRS, Premium_ZRS                                                                                                                                |
+| enableAcceleratedNetworking | bool   | Yes      | Indicates if to use accelerated networking or not.                                                                                                                                                                                              |
 
 ### adConfig object
 
-|Name        |Type   |Required |Value                               |
-|------------|-------|---------|------------------------------------|
- |domainName|string|Yes|The domain to join the servers to.|
-|serverOUPath|string|Yes|The OU Path to join the servers to.|
-|accountOUPath|string|Yes|The OU Path to create the service accounts.|
+| Name          | Type   | Required | Value                                       |
+| ------------- | ------ | -------- | ------------------------------------------- |
+| domainName    | string | Yes      | The domain to join the servers to.          |
+| serverOUPath  | string | Yes      | The OU Path to join the servers to.         |
+| accountOUPath | string | Yes      | The OU Path to create the service accounts. |
 
 ### backupConfig object
 
-|Name        |Type   |Required |Value                               |
-|------------|-------|---------|------------------------------------|
-|existingBackupVaultRG|string|Yes|The name of the existing backup vault resource group.|
-|existingBackupVaultName|string|Yes|The name of the existing backup vault.|
-|existingBackupPolicy|string|Yes|The name of the existing backup policy to use.|
+| Name                    | Type   | Required | Value                                                 |
+| ----------------------- | ------ | -------- | ----------------------------------------------------- |
+| existingBackupVaultRG   | string | Yes      | The name of the existing backup vault resource group. |
+| existingBackupVaultName | string | Yes      | The name of the existing backup vault.                |
+| existingBackupPolicy    | string | Yes      | The name of the existing backup policy to use.        |
 
 ### tagValues object
 
@@ -239,35 +239,35 @@ module "sql-server-cluster" {
 
 ### patchingConfig Object
 
-| Name     | Type   | Required | Value      |
-| -------- | ------ | -------- | ---------- |
-|autoPatchingEnabled|bool|Yes|Indicates if auto patching should be enabled|
-|autoPatchingDay|string|Yes|The day of the week to do the patching|
-|autoPatchingStartHour|string|Yes|The hour to start the patching|
-|autoPatchingMainenanceWindowDuration|int|Yes|The maintenance window duration in minutes|
-|autoUpgradeMinorVersion|bool|Yes|Indicates if to apply minor updates|
+| Name                                 | Type   | Required | Value                                        |
+| ------------------------------------ | ------ | -------- | -------------------------------------------- |
+| autoPatchingEnabled                  | bool   | Yes      | Indicates if auto patching should be enabled |
+| autoPatchingDay                      | string | Yes      | The day of the week to do the patching       |
+| autoPatchingStartHour                | string | Yes      | The hour to start the patching               |
+| autoPatchingMainenanceWindowDuration | int    | Yes      | The maintenance window duration in minutes   |
+| autoUpgradeMinorVersion              | bool   | Yes      | Indicates if to apply minor updates          |
 
 ### sqlBackupConfig object
 
-| Name     | Type   | Required | Value      |
-| -------- | ------ | -------- | ---------- |
-|backupEnabled|bool|Yes|Indicates if backup should be enabled on the VM|
-|RetentionPeriod|int|Yes|Specifies the retention period of the encryption|
-|EnableEncryption|bool|Yes|Indicates if to enable encryption or not|
+| Name             | Type | Required | Value                                            |
+| ---------------- | ---- | -------- | ------------------------------------------------ |
+| backupEnabled    | bool | Yes      | Indicates if backup should be enabled on the VM  |
+| RetentionPeriod  | int  | Yes      | Specifies the retention period of the encryption |
+| EnableEncryption | bool | Yes      | Indicates if to enable encryption or not         |
 
 ### imageReference object
-| Name     | Type   | Required | Value      |
-| -------- | ------ | -------- | ---------- |
-|sqlImagePublisher|string|Yes|The name of the image publisher|
-|offer|string|Yes|The SQL image to use|
-|sku|enum|Yes|The SQL sku to use - Enterprise,Express, SQLDEV, Standard, Web|
-|version|string|Yes|The sql template version to use. Use "latest" for the most current|  
+| Name              | Type   | Required | Value                                                              |
+| ----------------- | ------ | -------- | ------------------------------------------------------------------ |
+| sqlImagePublisher | string | Yes      | The name of the image publisher                                    |
+| offer             | string | Yes      | The SQL image to use                                               |
+| sku               | enum   | Yes      | The SQL sku to use - Enterprise,Express, SQLDEV, Standard, Web     |
+| version           | string | Yes      | The sql template version to use. Use "latest" for the most current |
 
 ### dataDisks object
-| Name     | Type   | Required | Value      |
-| -------- | ------ | -------- | ---------- |
-|numberOfSqlVMDisks|int|Yes|The number of data disks to create|
-|diskSizeGB|string|Yes|The size of the disk in GB|
+| Name               | Type   | Required | Value                              |
+| ------------------ | ------ | -------- | ---------------------------------- |
+| numberOfSqlVMDisks | int    | Yes      | The number of data disks to create |
+| diskSizeGB         | string | Yes      | The size of the disk in GB         |
 
 ## Additional Notes
 
@@ -298,18 +298,19 @@ Get-AzureRmVMImageSku -Location "canadacentral"-Publisher "MicrosoftSQLServer" -
 
 ## History
 
-|Date       | Change                |
-|-----------|-----------------------|
-|2019-01-22 | Modified template to use existing network instead of creating a new one.|
-||Modified template to use existing Active Directory instead of creating a new one.|
-| |Added keyvault integration.|
-| |Switched storage to managed disks.|
-| |Removed Public IP's.|
-| |Added backup and antimalare extensions at post deploy.|
-| |Added retry loop to start availablity listener in CreateFailOvercluster DSC.|
-| |Updated DSC packages for xSQL and xComputerManagement.|
-| |Added code in DSC files to join servers at a passed in OU path.|
-| |Added code to DSC to add the cluster permisions at the OU Path so Availability Lister could auto join|
-|2019-05-08 | Updated documentation and switch to new sql-server type.|
-|2019-05-15 | Made container Sas token optional |
-|           | Added support for naming the sql LB |
+| Date       | Change                                                                                                |
+| ---------- | ----------------------------------------------------------------------------------------------------- |
+| 2019-01-22 | Modified template to use existing network instead of creating a new one.                              |
+|            | Modified template to use existing Active Directory instead of creating a new one.                     |
+|            | Added keyvault integration.                                                                           |
+|            | Switched storage to managed disks.                                                                    |
+|            | Removed Public IP's.                                                                                  |
+|            | Added backup and antimalare extensions at post deploy.                                                |
+|            | Added retry loop to start availablity listener in CreateFailOvercluster DSC.                          |
+|            | Updated DSC packages for xSQL and xComputerManagement.                                                |
+|            | Added code in DSC files to join servers at a passed in OU path.                                       |
+|            | Added code to DSC to add the cluster permisions at the OU Path so Availability Lister could auto join |
+| 2019-05-08 | Updated documentation and switch to new sql-server type.                                              |
+| 2019-05-15 | Made container Sas token optional                                                                     |
+|            | Added support for naming the sql LB                                                                   |
+| 2020-08-13 | Fixed folder structure                                                                                |
