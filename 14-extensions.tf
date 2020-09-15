@@ -8,7 +8,7 @@ resource "azurerm_virtual_machine_extension" "CreateFileShareWitness" {
   publisher            = "Microsoft.Powershell"
   type                 = "DSC"
   type_handler_version = "2.71"
-  depends_on           = [module.sqlvmw, azurerm_storage_account.sqlbackup]
+  depends_on           = [module.sqlvmw, module.sqlbackup]
   settings             = <<SETTINGS
             {
                 "modulesURL": "https://raw.githubusercontent.com/canada-ca-terraform-modules/terraform-azurerm-sql-server-cluster/20190917.1/DSC/CreateFileShareWitness.ps1.zip",
