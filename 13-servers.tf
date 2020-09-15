@@ -2,14 +2,15 @@
 module "sqlvm1" {
   source                  = "github.com/canada-ca-terraform-modules/terraform-azurerm-caf-windows_virtual_machine?ref=v1.1.1"
   env                     = var.env
-  user_defined_string     = var.sqlServerConfig.vmName
+  userDefinedString       = var.sqlServerConfig.vmName
   postfix                 = "001"
-  resource_group_name     = var.resource_group_name
+  resource_group          = var.resource_group_name
   admin_username          = var.adminUsername
   admin_password          = data.azurerm_key_vault_secret.localAdminPasswordSecret.value
   nic_subnetName          = data.azurerm_subnet.subnet.name
   nic_vnetName            = data.azurerm_virtual_network.vnet.name
   nic_resource_group_name = var.vnetConfig.existingVnetRG
+  subnet                  = var.vnetConfig.dbSubnetName
   availability_set_id     = azurerm_availability_set.sqlAS.id
   public_ip               = false
   vm_size                 = var.sqlServerConfig.vmSize
@@ -27,9 +28,10 @@ module "sqlvm1" {
 module "sqlvm2" {
   source                  = "github.com/canada-ca-terraform-modules/terraform-azurerm-caf-windows_virtual_machine?ref=v1.1.1"
   env                     = var.env
-  user_defined_string     = var.sqlServerConfig.vmName
+  userDefinedString       = var.sqlServerConfig.vmName
+  subnet                  = var.vnetConfig.dbSubnetName
   postfix                 = "002"
-  resource_group_name     = var.resource_group_name
+  resource_group          = var.resource_group_name
   admin_username          = var.adminUsername
   admin_password          = data.azurerm_key_vault_secret.localAdminPasswordSecret.value
   nic_subnetName          = data.azurerm_subnet.subnet.name
@@ -52,10 +54,11 @@ module "sqlvm2" {
 module "sqlvmw" {
   source                  = "github.com/canada-ca-terraform-modules/terraform-azurerm-caf-windows_virtual_machine?ref=v1.1.1"
   env                     = var.env
-  user_defined_string     = var.witnessServerConfig.vmName
+  userDefinedString       = var.witnessServerConfig.vmName
   postfix                 = "001"
   location                = var.location
-  resource_group_name     = var.resource_group_name
+  resource_group          = var.resource_group_name
+  subnet                  = var.vnetConfig.dbSubnetName
   admin_username          = var.adminUsername
   admin_password          = data.azurerm_key_vault_secret.localAdminPasswordSecret.value
   nic_subnetName          = data.azurerm_subnet.subnet.name
