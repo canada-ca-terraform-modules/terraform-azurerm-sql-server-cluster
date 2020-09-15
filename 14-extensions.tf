@@ -2,9 +2,7 @@
 #Configure the fileshare witness
 resource "azurerm_virtual_machine_extension" "CreateFileShareWitness" {
   name                 = "CreateFileShareWitness"
-  location             = var.location
-  resource_group_name  = var.resource_group_name
-  virtual_machine_name = module.sqlvmw.name
+  virtual_machine_id   = module.sqlvmw.id
   publisher            = "Microsoft.Powershell"
   type                 = "DSC"
   type_handler_version = "2.71"
@@ -37,9 +35,7 @@ resource "azurerm_virtual_machine_extension" "CreateFileShareWitness" {
 #Adds FailOver windows components, joins machines to AD, adjusts firewall rules and adds sql service account
 resource "azurerm_virtual_machine_extension" "PrepareAlwaysOn" {
   name                 = "PrepareAlwaysOn"
-  location             = var.location
-  resource_group_name  = var.resource_group_name
-  virtual_machine_name = module.sqlvm1.name
+  virtual_machine_id   = module.sqlvm1.id
   publisher            = "Microsoft.Powershell"
   type                 = "DSC"
   type_handler_version = "2.71"
@@ -84,9 +80,7 @@ resource "azurerm_virtual_machine_extension" "PrepareAlwaysOn" {
 #Deploy the failover cluster
 resource "azurerm_virtual_machine_extension" "CreateFailOverCluster" {
   name                 = "configuringAlwaysOn"
-  location             = var.location
-  resource_group_name  = var.resource_group_name
-  virtual_machine_name = module.sqlvm2.name
+  virtual_machine_id   = module.sqlvm2.id
   publisher            = "Microsoft.Powershell"
   type                 = "DSC"
   type_handler_version = "2.71"

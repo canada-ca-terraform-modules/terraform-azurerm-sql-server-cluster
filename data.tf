@@ -25,11 +25,11 @@ data "azurerm_subnet" "subnet" {
 }
 
 data "azurerm_virtual_network" "vnet" {
-  name = "${var.vnetConfig.existingVnetName}"
-  resource_group_name  = "${var.vnetConfig.existingVnetRG}"
+  name                = "${var.vnetConfig.existingVnetName}"
+  resource_group_name = "${var.vnetConfig.existingVnetRG}"
 }
 
 # =============== TEMPLATES =============== #
 data "template_file" "sqlvm" {
-  template = file("./Templates/SQLVirtualMachine.json")
+  template = file("${path.module}/Templates/SQLVirtualMachine.json")
 }
