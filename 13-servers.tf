@@ -18,7 +18,7 @@ module "sqlvm1" {
     sku       = var.sqlServerConfig.imageReference.sku
     version   = var.sqlServerConfig.imageReference.version
   }
-
+  tags = var.tags
 }
 
 #Create the secondary SQL Server
@@ -41,7 +41,7 @@ module "sqlvm2" {
     sku       = var.sqlServerConfig.imageReference.sku
     version   = var.sqlServerConfig.imageReference.version
   }
-
+  tags = var.tags
 }
 
 #Create the SQL Witness.  Could be switched for a blob storage if desired
@@ -65,5 +65,6 @@ module "sqlvmw" {
     sku       = var.witnessServerConfig.imageReference.sku
     version   = var.witnessServerConfig.imageReference.version
   }
+  tags = var.tags
 }
 

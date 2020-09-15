@@ -135,7 +135,7 @@ variable "env" {}
 variable "group" {}
 variable "project" {}
 
-variable "tagValues" {
+variable "tags" {
   default = {
     "workload"        = "Database"
     "owner"           = "john.nephin@tpsgc-pwgsc.gc.ca"
