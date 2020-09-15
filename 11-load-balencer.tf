@@ -32,15 +32,15 @@ resource "azurerm_lb_backend_address_pool" "sqlLBBE" {
 
 #Add the first VM to the load balencer
 resource "azurerm_network_interface_backend_address_pool_association" "sqlvm1BEAssoc" {
-  network_interface_id    = module.sqlvm1.Nic0.id
-  ip_configuration_name   = module.sqlvm1.Nic0.ip_configuration[0].name
+  network_interface_id    = module.sqlvm1.Nic.id
+  ip_configuration_name   = module.sqlvm1.Nic.ip_configuration[0].name
   backend_address_pool_id = azurerm_lb_backend_address_pool.sqlLBBE.id
 }
 
 #Add the second VM to the load balencer
 resource "azurerm_network_interface_backend_address_pool_association" "sqlvm2BEAssoc" {
-  network_interface_id    = module.sqlvm2.Nic0.id
-  ip_configuration_name   = module.sqlvm2.Nic0.ip_configuration[0].name
+  network_interface_id    = module.sqlvm2.Nic.id
+  ip_configuration_name   = module.sqlvm2.Nic.ip_configuration[0].name
   backend_address_pool_id = azurerm_lb_backend_address_pool.sqlLBBE.id
 }
 
