@@ -130,6 +130,11 @@ variable "backupConfig" {
     existingBackupPolicy    = "DailyBackupPolicy"
   }
 }
+
+variable "env" {}
+variable "group" {}
+variable "project" {}
+
 variable "tagValues" {
   default = {
     "workload"        = "Database"
@@ -142,6 +147,4 @@ variable "tagValues" {
   }
 }
 
-variable "env" {}
-variable "group" {}
-variable "project" {}
+
