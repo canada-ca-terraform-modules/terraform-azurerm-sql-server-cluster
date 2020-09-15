@@ -179,7 +179,7 @@ resource "azurerm_template_deployment" "sqlvm" {
     "sqlStorageDisksConfigurationType"   = "NEW"
     "sqlStorageStartingDeviceId"         = "2"
     "sqlServerLicenseType"               = "${var.sqlServerConfig.sqlServerLicenseType}"
-    "sqlStorageAccountName"              = "${local.backupStorageName}"
+    "sqlStorageAccountName"              = "${module.sqlbackup.name}"
   }
 
   deployment_mode = "Incremental" # Deployment => incremental (complete is too destructive in our case) 
