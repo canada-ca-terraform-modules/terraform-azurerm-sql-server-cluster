@@ -93,10 +93,10 @@ resource "azurerm_virtual_machine_extension" "CreateFailOverCluster" {
                 "properties": {
                     "domainName": "${var.adConfig.domainName}",
                     "clusterName": "${local.clusterName}",
-                    "sharePath": "\\\\${local.witnessName}\\${local.sharePath}",
+                    "sharePath": "\\\\${module.sqlvmw.name}\\${local.sharePath}",
                     "nodes": [
-                        "${local.vm1Name}",
-                        "${local.vm2Name}"
+                        "${module.sqlvm1.name}",
+                        "${module.sqlvm2.name}"
                     ],
                     "sqlAlwaysOnEndpointName": "${local.sqlAOEPName}",
                     "sqlAlwaysOnAvailabilityGroupName": "${local.sqlAOAGName}",
@@ -104,8 +104,8 @@ resource "azurerm_virtual_machine_extension" "CreateFailOverCluster" {
                     "SqlAlwaysOnAvailabilityGroupListenerPort": "${var.sqlServerConfig.sqlAOListenerPort}",
                     "lbName": "${var.sqlServerConfig.sqlLBName}",
                     "lbAddress": "${var.sqlServerConfig.sqlLBIPAddress}",
-                    "primaryReplica": "${local.vm2Name}",
-                    "secondaryReplica": "${local.vm1Name}",
+                    "primaryReplica": "${module.sqlvm2.name}",
+                    "secondaryReplica": "${module.sqlvm1.name}",
                     "dnsServerName": "${var.dnsServerName}",
                     "adminCreds": {
                         "userName": "${var.adminUsername}",
