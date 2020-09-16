@@ -18,11 +18,11 @@ data "azurerm_key_vault_secret" "sqlAdminPasswordSecret" {
   key_vault_id = "${data.azurerm_key_vault.keyvaultsecrets.id}"
 }
 
-data "azurerm_subnet" "subnet" {
-  name                 = "${var.vnetConfig.dbSubnetName}"
-  virtual_network_name = "${var.vnetConfig.existingVnetName}"
-  resource_group_name  = "${var.vnetConfig.existingVnetRG}"
-}
+//data "azurerm_subnet" "subnet" {
+//  name                 = "${var.vnetConfig.dbSubnetName}"
+//  virtual_network_name = "${var.vnetConfig.existingVnetName}"
+//  resource_group_name  = "${var.vnetConfig.existingVnetRG}"
+//}
 
 data "azurerm_virtual_network" "vnet" {
   name                = "${var.vnetConfig.existingVnetName}"
