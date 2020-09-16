@@ -9,7 +9,6 @@
 #  resource_group           = var.resource_group_name
 #  account_tier             = var.sqlServerConfig.storageAccountTier
 #  account_kind             = var.sqlServerConfig.storageAccountKind
-#  account_type             = var.sqlServerConfig.storageAccountType
 #  account_replication_type = var.sqlServerConfig.storageAccountReplicationType
 #  tags                     = var.tags
 #}
@@ -21,7 +20,6 @@ module sqlbackup {
   userDefinedString        = "sqlbck"
   resource_group           = var.resource_group_name
   account_tier             = var.sqlServerConfig.storageAccountTier
-  account_type             = var.sqlServerConfig.storageAccountType
   account_kind             = var.sqlServerConfig.storageAccountKind
   account_replication_type = var.sqlServerConfig.storageAccountReplicationType
   tags                     = var.tags
