@@ -23,18 +23,20 @@ module "sqlvm1" {
 
 #Create the secondary SQL Server
 module "sqlvm2" {
-  source              = "github.com/canada-ca-terraform-modules/terraform-azurerm-caf-windows_virtual_machine?ref=v1.1.1"
-  env                 = var.env
-  userDefinedString   = var.sqlServerConfig.vmName
-  subnet              = var.vnetConfig.dbSubnetName
-  postfix             = "002"
-  resource_group      = var.resource_group_name
-  admin_username      = var.adminUsername
-  admin_password      = data.azurerm_key_vault_secret.localAdminPasswordSecret.value
-  availability_set_id = azurerm_availability_set.sqlAS.id
-  public_ip           = false
-  vm_size             = var.sqlServerConfig.vmSize
-  data_disk_sizes_gb  = [var.sqlServerConfig.dataDisks.diskSizeGB, var.sqlServerConfig.dataDisks.diskSizeGB]
+  source                 = "github.com/canada-ca-terraform-modules/terraform-azurerm-caf-windows_virtual_machine?ref=v1.1.1"
+  env                    = var.env
+  userDefinedString      = var.sqlServerConfig.vmName
+  subnet                 = var.vnetConfig.dbSubnetName
+  postfix                = "002"
+  resource_group         = var.resource_group_name
+  admin_username         = var.adminUsername
+  admin_password         = data.azurerm_key_vault_secret.localAdminPasswordSecret.value
+  availability_set_id    = azurerm_availability_set.sqlAS.id
+  public_ip              = false
+  vm_size                = var.sqlServerConfig.vmSize
+  data_disk_sizes_gb     = [var.sqlServerConfig.dataDisks.diskSizeGB, var.sqlServerConfig.dataDisks.diskSizeGB]
+  os_managed_disk_type   = lookup(var.vmConfigs.sqlServerConfig, "os_managed_disk_type", "StandardSSD_LRS")
+  data_managed_disk_type = lookup(var.vmConfigs.sqlServerConfig, "data_managed_disk_type", "StandardSSD_LRS")
   storage_image_reference = {
     publisher = var.sqlServerConfig.imageReference.sqlImagePublisher
     offer     = var.sqlServerConfig.imageReference.offer
@@ -65,6 +67,8 @@ module "sqlvmw" {
     sku       = var.witnessServerConfig.imageReference.sku
     version   = var.witnessServerConfig.imageReference.version
   }
-  tags = var.tags
+  os_managed_disk_type   = lookup(var.vmConfigs.witnessServerConfig, "os_managed_disk_type", "StandardSSD_LRS")
+  data_managed_disk_type = lookup(var.vmConfigs.witnessServerConfig, "data_managed_disk_type", "StandardSSD_LRS")
+  tags                   = var.tags
 }
 
