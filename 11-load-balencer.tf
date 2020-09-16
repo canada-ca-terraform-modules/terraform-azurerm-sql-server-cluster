@@ -13,7 +13,7 @@ locals {
 resource "azurerm_lb" "sqlLB" {
   name                = local.lbSettings.sqlLBName
   location            = var.location
-  resource_group_name = var.resource_group_name
+  resource_group_name = var.resource_group.name
   frontend_ip_configuration {
     name                          = local.lbSettings.sqlLBFE
     private_ip_address_allocation = "Static"
@@ -25,7 +25,7 @@ resource "azurerm_lb" "sqlLB" {
 
 #Create the load balencer backend pool
 resource "azurerm_lb_backend_address_pool" "sqlLBBE" {
-  resource_group_name = var.resource_group_name
+  resource_group_name = var.resource_group.name
   loadbalancer_id     = azurerm_lb.sqlLB.id
   name                = local.lbSettings.sqlLBBE
 }
@@ -46,7 +46,7 @@ resource "azurerm_network_interface_backend_address_pool_association" "sqlvm2BEA
 
 #Create the load balencer rules
 resource "azurerm_lb_rule" "sqlLBRule" {
-  resource_group_name            = var.resource_group_name
+  resource_group_name            = var.resource_group.name
   loadbalancer_id                = azurerm_lb.sqlLB.id
   name                           = "${local.lbSettings.sqlLBName}-lbr"
   protocol                       = "Tcp"
@@ -58,7 +58,7 @@ resource "azurerm_lb_rule" "sqlLBRule" {
 
 #Create a health probe for the load balencer
 resource "azurerm_lb_probe" "sqlLBProbe" {
-  resource_group_name = var.resource_group_name
+  resource_group_name = var.resource_group.name
   loadbalancer_id     = azurerm_lb.sqlLB.id
   name                = local.SQLAOProbe
   port                = 59999

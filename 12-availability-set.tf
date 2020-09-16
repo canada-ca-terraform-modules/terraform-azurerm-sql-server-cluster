@@ -2,6 +2,6 @@
 resource "azurerm_availability_set" "sqlAS" {
   name                = "${var.sqlServerConfig.vmName}-as"
   location            = var.location
-  resource_group_name = var.resource_group_name
+  resource_group_name = var.resource_group.name
   managed             = true
 }

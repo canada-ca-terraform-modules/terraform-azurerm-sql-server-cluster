@@ -1,6 +1,4 @@
-variable "resource_group_name" {
-  default = "pws3-test-sql-cluster-rg"
-}
+variable "resource_group" {}
 
 variable "keyVaultConfig" {
   default = {

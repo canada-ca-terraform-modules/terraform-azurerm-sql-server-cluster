@@ -40,7 +40,7 @@ The deployment assumes the following items are already deployed:
 module "sql-server-cluster" {
     source = "github.com/canada-ca-terraform-modules/terraform-azurerm-sql-server-cluster?ref=20200813.1"
 
-    resource_group_name = "pws3-test-sql-cluster-rg"
+    resource_group = var.resource_group
     keyVaultConfig = {
         existingRGName = "PwS3-GCPS-CRM-KeyVault-RG"
         existingVaultName = "PwS3-CRM-Keyvault"
@@ -163,6 +163,7 @@ module "sql-server-cluster" {
 | env                 | string | No       | The prefix used to name objects. <department><Environement> - [tagValues object](###tagvalues-object)                          |
 | project             | string | No       | The name of the project to use in naming objects. - [tagValues object](###tagvalues-object)                                    |
 | group               | string | No       | The group the project belongs to. Will be used in naming objects. - [tagValues object](###tagvalues-object)                    |
+| resource_group      | object | yes      | The resource group to create the sql-cluster in.                                                                               |
 
 ### KeyVaultConfig object
 

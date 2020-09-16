@@ -4,7 +4,7 @@ module "sqlvm1" {
   env                    = var.env
   userDefinedString      = var.sqlServerConfig.vmName
   postfix                = "001"
-  resource_group         = var.resource_group_name
+  resource_group         = var.resource_group
   admin_username         = var.adminUsername
   admin_password         = data.azurerm_key_vault_secret.localAdminPasswordSecret.value
   subnet                 = var.vnetConfig.dbSubnetName
@@ -30,7 +30,7 @@ module "sqlvm2" {
   userDefinedString      = var.sqlServerConfig.vmName
   subnet                 = var.vnetConfig.dbSubnetName
   postfix                = "002"
-  resource_group         = var.resource_group_name
+  resource_group         = var.resource_group
   admin_username         = var.adminUsername
   admin_password         = data.azurerm_key_vault_secret.localAdminPasswordSecret.value
   availability_set_id    = azurerm_availability_set.sqlAS.id
@@ -55,7 +55,7 @@ module "sqlvmw" {
   userDefinedString   = var.witnessServerConfig.vmName
   postfix             = "001"
   location            = var.location
-  resource_group      = var.resource_group_name
+  resource_group      = var.resource_group
   subnet              = var.vnetConfig.dbSubnetName
   admin_username      = var.adminUsername
   admin_password      = data.azurerm_key_vault_secret.localAdminPasswordSecret.value
