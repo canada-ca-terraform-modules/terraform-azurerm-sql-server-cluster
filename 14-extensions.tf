@@ -148,7 +148,7 @@ resource "azurerm_virtual_machine_extension" "CreateFailOverCluster" {
 #The sql VM types are not supported by terraform yet so we need to call an ARM template for this piece
 resource "azurerm_template_deployment" "sqlvm" {
   name                = "${var.sqlServerConfig.vmName}-template"
-  resource_group_name = var.resource_group_name
+  resource_group_name = var.resource_group.name
   template_body       = data.template_file.sqlvm.rendered
   depends_on          = [module.sqlvm2, module.sqlvm1]
   #DEPLOY
