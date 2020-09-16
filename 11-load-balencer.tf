@@ -18,7 +18,7 @@ resource "azurerm_lb" "sqlLB" {
     name                          = local.lbSettings.sqlLBFE
     private_ip_address_allocation = "Static"
     private_ip_address            = var.sqlServerConfig.sqlLBIPAddress
-    subnet_id                     = data.azurerm_subnet.subnet.id
+    subnet_id                     = var.vnetConfig.sqlSubnet.id
   }
 
 }

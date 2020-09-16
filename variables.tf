@@ -13,14 +13,7 @@ variable "secretPasswordName" {
   default = "server2016DefaultPassword"
 }
 
-variable "vnetConfig" {
-  default = {
-    existingVnetName = "PwS3-Infra-NetShared-VNET"
-    existingVnetRG   = "PwS3-Infra-NetShared-RG"
-    sqlSubnet        = "10.250.29.0/26"
-    dbSubnetName     = "PwS3-Shared-DB-CRM"
-  }
-}
+variable "vnetConfig" {}
 
 variable "location" {
   description = "The location of the template deployment"

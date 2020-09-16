@@ -180,8 +180,7 @@ module "sql-server-cluster" {
 | ---------------- | ------ | -------- | -------------------------------------------------------------- |
 | existingVnetName | string | Yes      | The name of the existing virtual network where sql will reside |
 | existingVnetRG   | string | Yes      | The name of the existing virtual network resource group        |
-| sqlSubnet        | string | Yes      | The subnet address range for where SQL will reside             |
-| dbSubnetName     | string | Yes      | The name of the subnet where SQL will reside                   |
+| sqlSubnet        | object | Yes      | The subnet where SQL will reside                               |
 
 ### sqlServerConfig object
 
@@ -320,3 +319,4 @@ Get-AzureRmVMImageSku -Location "canadacentral"-Publisher "MicrosoftSQLServer" -
 | 2019-05-15 | Made container Sas token optional                                                                     |
 |            | Added support for naming the sql LB                                                                   |
 | 2020-08-13 | Fixed folder structure                                                                                |
+| 2020-09-16 | Updated for newer terraform and caf modules                                                           |

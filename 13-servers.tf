@@ -7,7 +7,7 @@ module "sqlvm1" {
   resource_group         = var.resource_group
   admin_username         = var.adminUsername
   admin_password         = data.azurerm_key_vault_secret.localAdminPasswordSecret.value
-  subnet                 = var.vnetConfig.dbSubnetName
+  subnet                 = var.vnetConfig.sqlSubnet
   availability_set_id    = azurerm_availability_set.sqlAS.id
   public_ip              = false
   vm_size                = var.sqlServerConfig.vmSize
@@ -28,7 +28,7 @@ module "sqlvm2" {
   source                 = "github.com/canada-ca-terraform-modules/terraform-azurerm-caf-windows_virtual_machine?ref=v1.1.1"
   env                    = var.env
   userDefinedString      = var.sqlServerConfig.vmName
-  subnet                 = var.vnetConfig.dbSubnetName
+  subnet                 = var.vnetConfig.sqlSubnet
   postfix                = "002"
   resource_group         = var.resource_group
   admin_username         = var.adminUsername
@@ -56,7 +56,7 @@ module "sqlvmw" {
   postfix             = "001"
   location            = var.location
   resource_group      = var.resource_group
-  subnet              = var.vnetConfig.dbSubnetName
+  subnet              = var.vnetConfig.sqlSubnet
   admin_username      = var.adminUsername
   admin_password      = data.azurerm_key_vault_secret.localAdminPasswordSecret.value
   availability_set_id = azurerm_availability_set.sqlAS.id
