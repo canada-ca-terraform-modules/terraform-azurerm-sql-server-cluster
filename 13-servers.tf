@@ -77,3 +77,14 @@ module "sqlvmw" {
   tags                   = var.tags
 }
 
+output "sql1" {
+  value = module.sqlvm1
+}
+
+output "sql2" {
+  value = module.sqlvm2
+}
+
+output "sqlw" {
+  value = module.sqlvmw
+}
