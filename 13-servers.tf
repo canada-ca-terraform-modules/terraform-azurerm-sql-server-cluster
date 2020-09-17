@@ -22,7 +22,7 @@ module "sqlvm1" {
     version   = var.sqlServerConfig.imageReference.version
   }
   tags = var.tags
-  asg  = var.asg ? var.asg : ""
+  asg  = var.asg
 }
 
 #Create the secondary SQL Server
@@ -49,7 +49,7 @@ module "sqlvm2" {
     version   = var.sqlServerConfig.imageReference.version
   }
   tags = var.tags
-  asg  = var.asg ? var.asg : ""
+  asg  = var.asg
 }
 
 #Create the SQL Witness.  Could be switched for a blob storage if desired
@@ -77,7 +77,7 @@ module "sqlvmw" {
   os_managed_disk_type   = lookup(var.witnessServerConfig, "os_managed_disk_type", "StandardSSD_LRS")
   data_managed_disk_type = lookup(var.witnessServerConfig, "data_managed_disk_type", "StandardSSD_LRS")
   tags                   = var.tags
-  asg                    = var.asg ? var.asg : ""
+  asg                    = var.asg
 }
 
 output "sql1" {
