@@ -10,6 +10,7 @@ module "sqlvm1" {
   subnet                 = var.vnetConfig.sqlSubnet
   availability_set_id    = azurerm_availability_set.sqlAS.id
   public_ip              = false
+  use_nic_nsg            = var.sqlServerConfig.use_nic_nsg
   vm_size                = var.sqlServerConfig.vmSize
   data_disk_sizes_gb     = [var.sqlServerConfig.dataDisks.diskSizeGB, var.sqlServerConfig.dataDisks.diskSizeGB]
   os_managed_disk_type   = lookup(var.sqlServerConfig, "os_managed_disk_type", "StandardSSD_LRS")
@@ -35,6 +36,7 @@ module "sqlvm2" {
   admin_password         = data.azurerm_key_vault_secret.localAdminPasswordSecret.value
   availability_set_id    = azurerm_availability_set.sqlAS.id
   public_ip              = false
+  use_nic_nsg            = var.sqlServerConfig.use_nic_nsg
   vm_size                = var.sqlServerConfig.vmSize
   data_disk_sizes_gb     = [var.sqlServerConfig.dataDisks.diskSizeGB, var.sqlServerConfig.dataDisks.diskSizeGB]
   os_managed_disk_type   = lookup(var.sqlServerConfig, "os_managed_disk_type", "StandardSSD_LRS")
@@ -61,6 +63,7 @@ module "sqlvmw" {
   admin_password      = data.azurerm_key_vault_secret.localAdminPasswordSecret.value
   availability_set_id = azurerm_availability_set.sqlAS.id
   public_ip           = false
+  use_nic_nsg         = var.witnessServerConfig.use_nic_nsg
   vm_size             = var.witnessServerConfig.vmSize
   data_disk_sizes_gb  = [var.witnessServerConfig.dataDisks.diskSizeGB, var.witnessServerConfig.dataDisks.diskSizeGB]
   storage_image_reference = {
