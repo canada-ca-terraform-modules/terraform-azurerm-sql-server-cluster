@@ -39,7 +39,7 @@ resource "azurerm_virtual_machine_extension" "PrepareAlwaysOn" {
   publisher            = "Microsoft.Powershell"
   type                 = "DSC"
   type_handler_version = "2.71"
-  depends_on           = [azurerm_virtual_machine_extension.CreateFileShareWitness, module.sqlvm1, azurerm_template_deployment.sqlvm]
+  depends_on           = [azurerm_virtual_machine_extension.CreateFileShareWitness, module.sqlvm1, azurerm_template_deployment.sqlvm1, azurerm_template_deployment.sqlvm2]
   settings             = <<SETTINGS
             {
                 "modulesURL": "https://raw.githubusercontent.com/canada-ca-terraform-modules/terraform-azurerm-sql-server-cluster/20190917.1/DSC/PrepareAlwaysOnSqlServer.ps1.zip",
