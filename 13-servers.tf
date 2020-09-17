@@ -3,7 +3,7 @@ module "sqlvm1" {
   source                 = "github.com/canada-ca-terraform-modules/terraform-azurerm-caf-windows_virtual_machine?ref=v1.1.2"
   env                    = var.env
   userDefinedString      = var.sqlServerConfig.vmName
-  postfix                = "001"
+  postfix                = "1"
   resource_group         = var.resource_group
   admin_username         = var.adminUsername
   admin_password         = data.azurerm_key_vault_secret.localAdminPasswordSecret.value
@@ -30,7 +30,7 @@ module "sqlvm2" {
   env                    = var.env
   userDefinedString      = var.sqlServerConfig.vmName
   subnet                 = var.vnetConfig.sqlSubnet
-  postfix                = "002"
+  postfix                = "2"
   resource_group         = var.resource_group
   admin_username         = var.adminUsername
   admin_password         = data.azurerm_key_vault_secret.localAdminPasswordSecret.value
@@ -55,7 +55,7 @@ module "sqlvmw" {
   source              = "github.com/canada-ca-terraform-modules/terraform-azurerm-caf-windows_virtual_machine?ref=v1.1.2"
   env                 = var.env
   userDefinedString   = var.witnessServerConfig.vmName
-  postfix             = "001"
+  postfix             = "1"
   location            = var.location
   resource_group      = var.resource_group
   subnet              = var.vnetConfig.sqlSubnet
