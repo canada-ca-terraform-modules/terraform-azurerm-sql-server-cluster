@@ -1,148 +1,143 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-        "sqlVMName": {
-            "type": "string"
-        },
-        "location": {
-            "type": "string"
-        },
-         "sqlAutopatchingDayOfWeek": {
-            "type": "string"
-        },
-        "sqlAutopathingEnabled": {
-            "type": "string"
-        },
-        "sqlAutopatchingStartHour": {
-            "type": "string"
-        },
-        "sqlAutopatchingWindowDuration": {
-            "type": "string"
-        },
-        "sqlAutoBackupEnabled":{
-            "type": "string"
-        },
-        "sqlAutoBackupRetentionPeriod":{
-            "type": "string"
-        },
-        "sqlAutoBackupEnableEncryption": {
-            "type": "string"
-        },
-        "sqlAutoBackupSystemDbs": {
-            "type": "string"
-        },
-        "sqlAutoBackupScheduleType":{
-            "type": "string"
-        },
-        "sqlAutoBackupFrequency":{
-            "type": "string"
-        },
-        "sqlAutoBackupFullBackupStartTime":{
-            "type": "string"
-        },
-        "sqlAutoBackupFullBackupWindowHours":{
-            "type": "string"
-            },
-        "sqlAutoBackuplogBackupFrequency":{
-            "type": "string"
-        },
-        "sqlAutoBackupPassword":{
-            "type": "string"
-        },
-        "numberOfDisks": {
-            "type": "string"
-        },
-        "workloadType": {
-            "type": "string"
-        },
-        "rServicesEnabled":{
-            "type": "string",
-            "defaultValue": "false"
-        },
-        "sqlConnectivityType":{
-            "type": "string",
-            "defaultValue": "Private"
-        },
-        "sqlPortNumber":{
-            "type": "string",
-            "defaultValue": "1433"
-        },
-        "sqlStorageDisksConfigurationType":{
-            "type": "string",
-            "defaultValue": "NEW"
-        },
-        "sqlStorageStartingDeviceId":{
-           "type": "string",
-           "defaultValue": "2"
-        },
-        "sqlServerLicenseType":{
-            "type":"string",
-            "defaultValue": "PAYG"
-        },
-        "sqlStorageAccountName":{
-            "type": "string"
-        }
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "sqlVMName": {
+      "type": "string"
     },
-    "variables": {},
-    "resources": [
-        {
-            "name": "[concat(parameters('sqlVMName'),'00',copyIndex(1),'-vm')]",
-            "type": "Microsoft.SqlVirtualMachine/SqlVirtualMachines",
-            "apiVersion": "2017-03-01-preview",
-            "copy": { 
-                "name": "vmcopy", 
-                "count": 2  
-              }, 
-            "location": "[parameters('location')]",
-            "properties": {
-                "virtualMachineResourceId": "[resourceId('Microsoft.Compute/virtualMachines', concat(parameters('sqlVMName'),'00',copyIndex(1),'-vm'))]",
-                "SqlServerLicenseType": "[parameters('sqlServerLicenseType')]",
-                "AutoPatchingSettings": {
-                    "Enable": "[parameters('sqlAutopathingEnabled')]",
-                    "DayOfWeek": "[parameters('sqlAutopatchingDayOfWeek')]",
-                    "MaintenanceWindowStartingHour": "[parameters('sqlAutopatchingStartHour')]",
-                    "MaintenanceWindowDuration":"[parameters('sqlAutopatchingWindowDuration')]"
-                },
-                "AutoBackupSettings": {
-                    "Enable": "[parameters('sqlAutoBackupEnabled')]",
-                    "RetentionPeriod": "[parameters('sqlAutoBackupRetentionPeriod')]",
-                    "EnableEncryption": "[parameters('sqlAutoBackupEnableEncryption')]",
-                    "BackupSystemDbs": "[parameters('sqlAutoBackupSystemDbs')]",
-                    "BackupScheduleType": "[parameters('sqlAutoBackupScheduleType')]",
-                    "FullBackupFrequency": "[parameters('sqlAutoBackupFrequency')]",
-                    "FullBackupStartTime": "[parameters('sqlAutoBackupFullBackupStartTime')]",
-                    "FullBackupWindowHours": "[parameters('sqlAutoBackupFullBackupWindowHours')]",
-                    "LogBackupFrequency": "[parameters('sqlAutoBackuplogBackupFrequency')]",
-                    "Password": "[parameters('sqlAutoBackupPassword')]",
-                    "StorageAccountUrl": "[reference(resourceId('Microsoft.Storage/storageAccounts', parameters('sqlStorageAccountName')), '2018-07-01').primaryEndpoints['blob']]",
-                    "StorageAccessKey": "[first(listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('sqlStorageAccountName')), '2018-07-01').keys).value]"
-                },
-                "KeyVaultCredentialSettings": 
-                {
-                    "Enable": false,
-                    "CredentialName": ""
-                },
-                "ServerConfigurationsManagementSettings": {
-                    "SQLConnectivityUpdateSettings": {
-                        "ConnectivityType": "[parameters('sqlConnectivityType')]",
-                        "Port": "[parameters('sqlPortNumber')]",
-                        "SQLAuthUpdateUserName": "",
-                        "SQLAuthUpdatePassword": ""
-                    },
-                    "SQLWorkloadTypeUpdateSettings": {
-                        "SQLWorkloadType": "[parameters('workloadType')]"
-                    },
-                    "SQLStorageUpdateSettings": {
-                        "DiskCount": "[parameters('numberOfDisks')]",
-                        "DiskConfigurationType": "[parameters('sqlStorageDisksConfigurationType')]",
-                        "StartingDeviceID": "[parameters('sqlStorageStartingDeviceId')]"
-                    },
-                    "AdditionalFeaturesServerConfigurations": {
-                        "IsRServicesEnabled": "[parameters('rServicesEnabled')]"
-                    }
-                }
-            }
+    "location": {
+      "type": "string"
+    },
+    "sqlAutopatchingDayOfWeek": {
+      "type": "string"
+    },
+    "sqlAutopathingEnabled": {
+      "type": "string"
+    },
+    "sqlAutopatchingStartHour": {
+      "type": "string"
+    },
+    "sqlAutopatchingWindowDuration": {
+      "type": "string"
+    },
+    "sqlAutoBackupEnabled": {
+      "type": "string"
+    },
+    "sqlAutoBackupRetentionPeriod": {
+      "type": "string"
+    },
+    "sqlAutoBackupEnableEncryption": {
+      "type": "string"
+    },
+    "sqlAutoBackupSystemDbs": {
+      "type": "string"
+    },
+    "sqlAutoBackupScheduleType": {
+      "type": "string"
+    },
+    "sqlAutoBackupFrequency": {
+      "type": "string"
+    },
+    "sqlAutoBackupFullBackupStartTime": {
+      "type": "string"
+    },
+    "sqlAutoBackupFullBackupWindowHours": {
+      "type": "string"
+    },
+    "sqlAutoBackuplogBackupFrequency": {
+      "type": "string"
+    },
+    "sqlAutoBackupPassword": {
+      "type": "string"
+    },
+    "numberOfDisks": {
+      "type": "string"
+    },
+    "workloadType": {
+      "type": "string"
+    },
+    "rServicesEnabled": {
+      "type": "string",
+      "defaultValue": "false"
+    },
+    "sqlConnectivityType": {
+      "type": "string",
+      "defaultValue": "Private"
+    },
+    "sqlPortNumber": {
+      "type": "string",
+      "defaultValue": "1433"
+    },
+    "sqlStorageDisksConfigurationType": {
+      "type": "string",
+      "defaultValue": "NEW"
+    },
+    "sqlStorageStartingDeviceId": {
+      "type": "string",
+      "defaultValue": "2"
+    },
+    "sqlServerLicenseType": {
+      "type": "string",
+      "defaultValue": "PAYG"
+    },
+    "sqlStorageAccountName": {
+      "type": "string"
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "name": "[parameters('sqlVMName')]",
+      "type": "Microsoft.SqlVirtualMachine/SqlVirtualMachines",
+      "apiVersion": "2017-03-01-preview",
+      "location": "[parameters('location')]",
+      "properties": {
+        "virtualMachineResourceId": "[resourceId('Microsoft.Compute/virtualMachines', concat(parameters('sqlVMName'),'00',copyIndex(1),'-vm'))]",
+        "SqlServerLicenseType": "[parameters('sqlServerLicenseType')]",
+        "AutoPatchingSettings": {
+          "Enable": "[parameters('sqlAutopathingEnabled')]",
+          "DayOfWeek": "[parameters('sqlAutopatchingDayOfWeek')]",
+          "MaintenanceWindowStartingHour": "[parameters('sqlAutopatchingStartHour')]",
+          "MaintenanceWindowDuration": "[parameters('sqlAutopatchingWindowDuration')]"
+        },
+        "AutoBackupSettings": {
+          "Enable": "[parameters('sqlAutoBackupEnabled')]",
+          "RetentionPeriod": "[parameters('sqlAutoBackupRetentionPeriod')]",
+          "EnableEncryption": "[parameters('sqlAutoBackupEnableEncryption')]",
+          "BackupSystemDbs": "[parameters('sqlAutoBackupSystemDbs')]",
+          "BackupScheduleType": "[parameters('sqlAutoBackupScheduleType')]",
+          "FullBackupFrequency": "[parameters('sqlAutoBackupFrequency')]",
+          "FullBackupStartTime": "[parameters('sqlAutoBackupFullBackupStartTime')]",
+          "FullBackupWindowHours": "[parameters('sqlAutoBackupFullBackupWindowHours')]",
+          "LogBackupFrequency": "[parameters('sqlAutoBackuplogBackupFrequency')]",
+          "Password": "[parameters('sqlAutoBackupPassword')]",
+          "StorageAccountUrl": "[reference(resourceId('Microsoft.Storage/storageAccounts', parameters('sqlStorageAccountName')), '2018-07-01').primaryEndpoints['blob']]",
+          "StorageAccessKey": "[first(listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('sqlStorageAccountName')), '2018-07-01').keys).value]"
+        },
+        "KeyVaultCredentialSettings": {
+          "Enable": false,
+          "CredentialName": ""
+        },
+        "ServerConfigurationsManagementSettings": {
+          "SQLConnectivityUpdateSettings": {
+            "ConnectivityType": "[parameters('sqlConnectivityType')]",
+            "Port": "[parameters('sqlPortNumber')]",
+            "SQLAuthUpdateUserName": "",
+            "SQLAuthUpdatePassword": ""
+          },
+          "SQLWorkloadTypeUpdateSettings": {
+            "SQLWorkloadType": "[parameters('workloadType')]"
+          },
+          "SQLStorageUpdateSettings": {
+            "DiskCount": "[parameters('numberOfDisks')]",
+            "DiskConfigurationType": "[parameters('sqlStorageDisksConfigurationType')]",
+            "StartingDeviceID": "[parameters('sqlStorageStartingDeviceId')]"
+          },
+          "AdditionalFeaturesServerConfigurations": {
+            "IsRServicesEnabled": "[parameters('rServicesEnabled')]"
+          }
         }
-    ]
+      }
+    }
+  ]
 }

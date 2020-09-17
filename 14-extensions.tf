@@ -146,7 +146,7 @@ resource "azurerm_virtual_machine_extension" "CreateFailOverCluster" {
 
 #Convert the VM's to SqlServer Type for added features (backup, patching, BYOL hybrid, disk scalability)
 #The sql VM types are not supported by terraform yet so we need to call an ARM template for this piece
-resource "azurerm_template_deployment" "sqlvm" {
+resource "azurerm_template_deployment" "sqlvm1" {
   name                = "${var.sqlServerConfig.vmName}-template"
   resource_group_name = var.resource_group.name
   template_body       = data.template_file.sqlvm.rendered
@@ -155,7 +155,45 @@ resource "azurerm_template_deployment" "sqlvm" {
 
   # =============== ARM TEMPLATE PARAMETERS =============== #
   parameters = {
-    "sqlVMName"                          = "${var.sqlServerConfig.vmName}"
+    "sqlVMName"                          = "${module.sqlvm1.name}"
+    location                             = "${var.location}"
+    "sqlAutopatchingDayOfWeek"           = "${var.sqlServerConfig.sqlpatchingConfig.dayOfWeek}"
+    "sqlAutopathingEnabled"              = "${var.sqlServerConfig.sqlpatchingConfig.patchingEnabled}"
+    "sqlAutopatchingStartHour"           = "${var.sqlServerConfig.sqlpatchingConfig.maintenanceWindowStartingHour}"
+    "sqlAutopatchingWindowDuration"      = "${var.sqlServerConfig.sqlpatchingConfig.maintenanceWindowDuration}"
+    "sqlAutoBackupEnabled"               = "${var.sqlServerConfig.sqlBackupConfig.backupEnabled}"
+    "sqlAutoBackupRetentionPeriod"       = "${var.sqlServerConfig.sqlBackupConfig.retentionPeriod}"
+    "sqlAutoBackupEnableEncryption"      = "${var.sqlServerConfig.sqlBackupConfig.enableEncryption}"
+    "sqlAutoBackupSystemDbs"             = "${var.sqlServerConfig.sqlBackupConfig.backupSystemDbs}"
+    "sqlAutoBackupScheduleType"          = "${var.sqlServerConfig.sqlBackupConfig.backupScheduleType}"
+    "sqlAutoBackupFrequency"             = "${var.sqlServerConfig.sqlBackupConfig.fullBackupFrequency}"
+    "sqlAutoBackupFullBackupStartTime"   = "${var.sqlServerConfig.sqlBackupConfig.fullBackupStartTime}"
+    "sqlAutoBackupFullBackupWindowHours" = "${var.sqlServerConfig.sqlBackupConfig.fullBackupWindowHours}"
+    "sqlAutoBackuplogBackupFrequency"    = "${var.sqlServerConfig.sqlBackupConfig.logBackupFrequency}"
+    "sqlAutoBackupPassword"              = "${var.sqlServerConfig.sqlBackupConfig.password}"
+    "numberOfDisks"                      = "${var.sqlServerConfig.dataDisks.numberOfSqlVMDisks}"
+    "workloadType"                       = "${var.sqlServerConfig.workloadType}"
+    "rServicesEnabled"                   = "false"
+    "sqlConnectivityType"                = "Private"
+    "sqlPortNumber"                      = "1433"
+    "sqlStorageDisksConfigurationType"   = "NEW"
+    "sqlStorageStartingDeviceId"         = "2"
+    "sqlServerLicenseType"               = "${var.sqlServerConfig.sqlServerLicenseType}"
+    "sqlStorageAccountName"              = "${module.sqlbackup.name}"
+  }
+
+  deployment_mode = "Incremental" # Deployment => incremental (complete is too destructive in our case) 
+}
+resource "azurerm_template_deployment" "sqlvm2" {
+  name                = "${var.sqlServerConfig.vmName}-template"
+  resource_group_name = var.resource_group.name
+  template_body       = data.template_file.sqlvm.rendered
+  depends_on          = [module.sqlvm2, module.sqlvm1]
+  #DEPLOY
+
+  # =============== ARM TEMPLATE PARAMETERS =============== #
+  parameters = {
+    "sqlVMName"                          = "${module.sqlvm2.name}"
     location                             = "${var.location}"
     "sqlAutopatchingDayOfWeek"           = "${var.sqlServerConfig.sqlpatchingConfig.dayOfWeek}"
     "sqlAutopathingEnabled"              = "${var.sqlServerConfig.sqlpatchingConfig.patchingEnabled}"
