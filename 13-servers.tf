@@ -1,6 +1,6 @@
 #Create the primary SQL server
 module "sqlvm1" {
-  source                 = "github.com/canada-ca-terraform-modules/terraform-azurerm-caf-windows_virtual_machine?ref=v1.1.1"
+  source                 = "github.com/canada-ca-terraform-modules/terraform-azurerm-caf-windows_virtual_machine?ref=v1.1.2"
   env                    = var.env
   userDefinedString      = var.sqlServerConfig.vmName
   postfix                = "001"
@@ -26,7 +26,7 @@ module "sqlvm1" {
 
 #Create the secondary SQL Server
 module "sqlvm2" {
-  source                 = "github.com/canada-ca-terraform-modules/terraform-azurerm-caf-windows_virtual_machine?ref=v1.1.1"
+  source                 = "github.com/canada-ca-terraform-modules/terraform-azurerm-caf-windows_virtual_machine?ref=v1.1.2"
   env                    = var.env
   userDefinedString      = var.sqlServerConfig.vmName
   subnet                 = var.vnetConfig.sqlSubnet
@@ -52,7 +52,7 @@ module "sqlvm2" {
 
 #Create the SQL Witness.  Could be switched for a blob storage if desired
 module "sqlvmw" {
-  source              = "github.com/canada-ca-terraform-modules/terraform-azurerm-caf-windows_virtual_machine?ref=v1.1.1"
+  source              = "github.com/canada-ca-terraform-modules/terraform-azurerm-caf-windows_virtual_machine?ref=v1.1.2"
   env                 = var.env
   userDefinedString   = var.witnessServerConfig.vmName
   postfix             = "001"
