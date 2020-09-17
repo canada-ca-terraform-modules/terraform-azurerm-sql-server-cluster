@@ -138,4 +138,4 @@ variable "tags" {
   }
 }
 
-
+variable asg {}
