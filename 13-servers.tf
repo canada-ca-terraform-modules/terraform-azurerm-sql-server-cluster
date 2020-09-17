@@ -78,13 +78,13 @@ module "sqlvmw" {
 }
 
 output "sql1" {
-  value = module.sqlvm1
+  value = module.sqlvm1.name
 }
 
 output "sql2" {
-  value = module.sqlvm2
+  value = module.sqlvm2.name
 }
 
 output "sqlw" {
-  value = module.sqlvmw
+  value = module.sqlvmw.name
 }
