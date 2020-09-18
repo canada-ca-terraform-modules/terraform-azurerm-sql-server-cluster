@@ -138,4 +138,7 @@ variable "tags" {
   }
 }
 
-variable asg {}
+variable "asg" {
+  description = "ASG resource to join the NIC to"
+  default     = null
+}
