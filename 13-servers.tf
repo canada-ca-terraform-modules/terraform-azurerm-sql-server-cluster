@@ -21,7 +21,7 @@ module "sqlvm1" {
     sku       = var.sqlServerConfig.imageReference.sku
     version   = var.sqlServerConfig.imageReference.version
   }
-  //dnsServers = ["${cidrhost(local.subnets[var.vmConfigs.SRV-SASAD.subnet].address_prefix, var.vmConfigs.SRV-SASAD.DC1IP)}", "${cidrhost(local.subnets[var.vmConfigs.SRV-SASAD.subnet].address_prefix, var.vmConfigs.SRV-SASAD.DC2IP)}"]
+  dnsServers = "10.144.69.102"
   domainToJoin = {
     domainName        = var.adConfig.domainName
     domainUsername    = var.domainUsername
