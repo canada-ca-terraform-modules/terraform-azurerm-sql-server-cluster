@@ -21,7 +21,7 @@ module "sqlvm1" {
     sku       = var.sqlServerConfig.imageReference.sku
     version   = var.sqlServerConfig.imageReference.version
   }
-  dnsServers = "10.144.69.102"
+  dnsServers = ["10.144.69.102"]
   domainToJoin = {
     domainName        = var.adConfig.domainName
     domainUsername    = var.domainUsername
