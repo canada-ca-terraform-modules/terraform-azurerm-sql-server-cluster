@@ -21,6 +21,14 @@ module "sqlvm1" {
     sku       = var.sqlServerConfig.imageReference.sku
     version   = var.sqlServerConfig.imageReference.version
   }
+  //dnsServers = ["${cidrhost(local.subnets[var.vmConfigs.SRV-SASAD.subnet].address_prefix, var.vmConfigs.SRV-SASAD.DC1IP)}", "${cidrhost(local.subnets[var.vmConfigs.SRV-SASAD.subnet].address_prefix, var.vmConfigs.SRV-SASAD.DC2IP)}"]
+  domainToJoin = {
+    domainName        = var.adConfig.domainName
+    domainUsername    = var.domainUsername
+    domainPassword    = data.azurerm_key_vault_secret.domainAdminPasswordSecret.value
+    domainJoinOptions = 3
+    ouPath            = var.adConfig.serverOUPath
+  }
   tags = var.tags
   asg  = var.asg
 }
@@ -48,6 +56,13 @@ module "sqlvm2" {
     sku       = var.sqlServerConfig.imageReference.sku
     version   = var.sqlServerConfig.imageReference.version
   }
+  domainToJoin = {
+    domainName        = var.adConfig.domainName
+    domainUsername    = var.domainUsername
+    domainPassword    = data.azurerm_key_vault_secret.domainAdminPasswordSecret.value
+    domainJoinOptions = 3
+    ouPath            = var.adConfig.serverOUPath
+  }
   tags = var.tags
   asg  = var.asg
 }
@@ -73,6 +88,13 @@ module "sqlvmw" {
     offer     = var.witnessServerConfig.imageReference.offer
     sku       = var.witnessServerConfig.imageReference.sku
     version   = var.witnessServerConfig.imageReference.version
+  }
+  domainToJoin = {
+    domainName        = var.adConfig.domainName
+    domainUsername    = var.domainUsername
+    domainPassword    = data.azurerm_key_vault_secret.domainAdminPasswordSecret.value
+    domainJoinOptions = 3
+    ouPath            = var.adConfig.serverOUPath
   }
   os_managed_disk_type   = lookup(var.witnessServerConfig, "os_managed_disk_type", "StandardSSD_LRS")
   data_managed_disk_type = lookup(var.witnessServerConfig, "data_managed_disk_type", "StandardSSD_LRS")
