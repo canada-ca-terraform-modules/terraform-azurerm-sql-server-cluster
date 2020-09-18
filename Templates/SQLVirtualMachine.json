@@ -92,7 +92,7 @@
       "apiVersion": "2017-03-01-preview",
       "location": "[parameters('location')]",
       "properties": {
-        "virtualMachineResourceId": "[resourceId('Microsoft.Compute/virtualMachines', concat(parameters('sqlVMName'),'00',copyIndex(1),'-vm'))]",
+        "virtualMachineResourceId": "[resourceId('Microsoft.Compute/virtualMachines', concat(parameters('sqlVMName')))]",
         "SqlServerLicenseType": "[parameters('sqlServerLicenseType')]",
         "AutoPatchingSettings": {
           "Enable": "[parameters('sqlAutopathingEnabled')]",
