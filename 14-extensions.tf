@@ -147,7 +147,7 @@ resource "azurerm_virtual_machine_extension" "CreateFailOverCluster" {
 #Convert the VM's to SqlServer Type for added features (backup, patching, BYOL hybrid, disk scalability)
 #The sql VM types are not supported by terraform yet so we need to call an ARM template for this piece
 resource "azurerm_template_deployment" "sqlvm1" {
-  name                = "${var.sqlServerConfig.vmName}-template"
+  name                = "${module.sqlvm1.name}-template"
   resource_group_name = var.resource_group.name
   template_body       = data.template_file.sqlvm.rendered
   depends_on          = [module.sqlvm2, module.sqlvm1]
@@ -185,7 +185,7 @@ resource "azurerm_template_deployment" "sqlvm1" {
   deployment_mode = "Incremental" # Deployment => incremental (complete is too destructive in our case) 
 }
 resource "azurerm_template_deployment" "sqlvm2" {
-  name                = "${var.sqlServerConfig.vmName}-template"
+  name                = "${module.sqlvm2.name}-template"
   resource_group_name = var.resource_group.name
   template_body       = data.template_file.sqlvm.rendered
   depends_on          = [module.sqlvm2, module.sqlvm1]
