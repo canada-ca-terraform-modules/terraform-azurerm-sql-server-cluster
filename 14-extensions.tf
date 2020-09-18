@@ -7,7 +7,11 @@ resource "azurerm_virtual_machine_extension" "CreateFileShareWitness" {
   type                 = "DSC"
   type_handler_version = "2.71"
   depends_on           = [module.sqlvmw, module.sqlbackup]
-  settings             = <<SETTINGS
+  timeouts {
+    create = "2h"
+    delete = "2h"
+  }
+  settings           = <<SETTINGS
             {
                 "modulesURL": "https://raw.githubusercontent.com/canada-ca-terraform-modules/terraform-azurerm-sql-server-cluster/20190917.1/DSC/CreateFileShareWitness.ps1.zip",
                     "configurationFunction": "CreateFileShareWitness.ps1\\CreateFileShareWitness",
@@ -22,7 +26,7 @@ resource "azurerm_virtual_machine_extension" "CreateFileShareWitness" {
                     }
             }
             SETTINGS
-  protected_settings   = <<PROTECTED_SETTINGS
+  protected_settings = <<PROTECTED_SETTINGS
          {
       "Items": {
                         "domainPassword": "${data.azurerm_key_vault_secret.domainAdminPasswordSecret.value}"
@@ -40,7 +44,11 @@ resource "azurerm_virtual_machine_extension" "PrepareAlwaysOn" {
   type                 = "DSC"
   type_handler_version = "2.71"
   depends_on           = [azurerm_virtual_machine_extension.CreateFileShareWitness, module.sqlvm1, azurerm_template_deployment.sqlvm1, azurerm_template_deployment.sqlvm2]
-  settings             = <<SETTINGS
+  timeouts {
+    create = "2h"
+    delete = "2h"
+  }
+  settings           = <<SETTINGS
             {
                 "modulesURL": "https://raw.githubusercontent.com/canada-ca-terraform-modules/terraform-azurerm-sql-server-cluster/20190917.1/DSC/PrepareAlwaysOnSqlServer.ps1.zip",
                 "configurationFunction": "PrepareAlwaysOnSqlServer.ps1\\PrepareAlwaysOnSqlServer",
@@ -66,7 +74,7 @@ resource "azurerm_virtual_machine_extension" "PrepareAlwaysOn" {
                 }
             }
             SETTINGS
-  protected_settings   = <<PROTECTED_SETTINGS
+  protected_settings = <<PROTECTED_SETTINGS
          {
       "Items": {
                         "domainPassword": "${data.azurerm_key_vault_secret.domainAdminPasswordSecret.value}",
@@ -85,7 +93,11 @@ resource "azurerm_virtual_machine_extension" "CreateFailOverCluster" {
   type                 = "DSC"
   type_handler_version = "2.71"
   depends_on           = [azurerm_virtual_machine_extension.PrepareAlwaysOn, module.sqlvm2, azurerm_template_deployment.sqlvm1, azurerm_template_deployment.sqlvm2]
-  settings             = <<SETTINGS
+  timeouts {
+    create = "2h"
+    delete = "2h"
+  }
+  settings           = <<SETTINGS
             {
                 
                 "modulesURL": "https://raw.githubusercontent.com/canada-ca-terraform-modules/terraform-azurerm-sql-server-cluster/20190917.1/DSC/CreateFailoverCluster.ps1.zip",
@@ -132,7 +144,7 @@ resource "azurerm_virtual_machine_extension" "CreateFailOverCluster" {
                 }
             }
             SETTINGS
-  protected_settings   = <<PROTECTED_SETTINGS
+  protected_settings = <<PROTECTED_SETTINGS
          {
       "Items": {
                     "adminPassword": "${data.azurerm_key_vault_secret.localAdminPasswordSecret.value}",
@@ -151,6 +163,10 @@ resource "azurerm_template_deployment" "sqlvm1" {
   resource_group_name = var.resource_group.name
   template_body       = data.template_file.sqlvm.rendered
   depends_on          = [module.sqlvm2, module.sqlvm1]
+  timeouts {
+    create = "2h"
+    delete = "2h"
+  }
   #DEPLOY
 
   # =============== ARM TEMPLATE PARAMETERS =============== #
@@ -189,6 +205,10 @@ resource "azurerm_template_deployment" "sqlvm2" {
   resource_group_name = var.resource_group.name
   template_body       = data.template_file.sqlvm.rendered
   depends_on          = [module.sqlvm2, module.sqlvm1]
+  timeouts {
+    create = "2h"
+    delete = "2h"
+  }
   #DEPLOY
 
   # =============== ARM TEMPLATE PARAMETERS =============== #
