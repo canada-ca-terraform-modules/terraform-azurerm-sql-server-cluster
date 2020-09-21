@@ -13,7 +13,7 @@ resource "azurerm_virtual_machine_extension" "CreateFileShareWitness" {
   }
   settings           = <<SETTINGS
             {
-                "modulesURL": "https://raw.githubusercontent.com/canada-ca-terraform-modules/terraform-azurerm-sql-server-cluster/20190917.1/DSC/CreateFileShareWitness.ps1.zip",
+                "modulesURL": "https://raw.githubusercontent.com/canada-ca-terraform-modules/terraform-azurerm-sql-server-cluster/20200916.1/DSC/CreateFileShareWitness.ps1.zip",
                     "configurationFunction": "CreateFileShareWitness.ps1\\CreateFileShareWitness",
                     "properties": {
                         "domainName": "${var.adConfig.domainName}",
@@ -50,7 +50,7 @@ resource "azurerm_virtual_machine_extension" "PrepareAlwaysOn" {
   }
   settings           = <<SETTINGS
             {
-                "modulesURL": "https://raw.githubusercontent.com/canada-ca-terraform-modules/terraform-azurerm-sql-server-cluster/20190917.1/DSC/PrepareAlwaysOnSqlServer.ps1.zip",
+                "modulesURL": "https://raw.githubusercontent.com/canada-ca-terraform-modules/terraform-azurerm-sql-server-cluster/20200916.1/DSC/PrepareAlwaysOnSqlServer.ps1.zip",
                 "configurationFunction": "PrepareAlwaysOnSqlServer.ps1\\PrepareAlwaysOnSqlServer",
                 "properties": {
                     "domainName": "${var.adConfig.domainName}",
@@ -100,7 +100,7 @@ resource "azurerm_virtual_machine_extension" "CreateFailOverCluster" {
   settings           = <<SETTINGS
             {
                 
-                "modulesURL": "https://raw.githubusercontent.com/canada-ca-terraform-modules/terraform-azurerm-sql-server-cluster/20190917.1/DSC/CreateFailoverCluster.ps1.zip",
+                "modulesURL": "https://raw.githubusercontent.com/canada-ca-terraform-modules/terraform-azurerm-sql-server-cluster/20200916.1/DSC/CreateFailoverCluster.ps1.zip",
                 "configurationFunction": "CreateFailoverCluster.ps1\\CreateFailoverCluster",
                 "properties": {
                     "domainName": "${var.adConfig.domainName}",
