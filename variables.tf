@@ -42,6 +42,7 @@ variable "sqlServerConfig" {
     sqlAOListenerPort    = "1433"
     vmSize               = "Standard_DS3_v2"
     vmName               = "TST-SWB"
+    priority             = "Regular"
     sqlServerLicenseType = "AHUB"
     sqlpatchingConfig = {
       patchingEnabled               = true
@@ -86,8 +87,9 @@ variable "sqlServerConfig" {
 
 variable "witnessServerConfig" {
   default = {
-    vmSize = "Standard_DS2_v2"
-    vmName = "TST-SVR"
+    vmSize   = "Standard_DS2_v2"
+    vmName   = "TST-SVR"
+    priority = "Regular"
     imageReference = {
       publisher = "MicrosoftWindowsServer"
       offer     = "WindowsServer"

@@ -8,6 +8,9 @@ Set-ExecutionPolicy Unrestricted -Force
 # Install required DSC modules before we get started. 
 #
 #[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+#Set-ItemProperty -Path ‘HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NetFramework\v4.0.30319’ -Name ‘SchUseStrongCrypto’ -Value ‘1’ -Type DWord
+#Set-ItemProperty -Path ‘HKLM:\SOFTWARE\Microsoft\.NetFramework\v4.0.30319’ -Name ‘SchUseStrongCrypto’ -Value ‘1’ -Type DWord
+#Install-Module PowershellGet -Force 
 #Install-PackageProvider -Name NuGet -Force
 #Install-Module -Name SqlServer -AllowClobber -Force
 #Import-Module -Name SqlServer -ErrorAction SilentlyContinue

@@ -29,8 +29,9 @@ module "sqlvm1" {
     domainJoinOptions = 3
     ouPath            = var.adConfig.serverOUPath
   }
-  tags = var.tags
-  asg  = var.asg
+  tags     = var.tags
+  priority = var.sqlServerConfig.priority
+  asg      = var.asg
 }
 
 #Create the secondary SQL Server
@@ -64,8 +65,9 @@ module "sqlvm2" {
     domainJoinOptions = 3
     ouPath            = var.adConfig.serverOUPath
   }
-  tags = var.tags
-  asg  = var.asg
+  tags     = var.tags
+  asg      = var.asg
+  priority = var.sqlServerConfig.priority
 }
 
 #Create the SQL Witness.  Could be switched for a blob storage if desired
@@ -102,6 +104,7 @@ module "sqlvmw" {
   data_managed_disk_type = lookup(var.witnessServerConfig, "data_managed_disk_type", "StandardSSD_LRS")
   tags                   = var.tags
   asg                    = var.asg
+  priority               = var.witnessServerConfig.priority
 }
 
 output "sql1" {
