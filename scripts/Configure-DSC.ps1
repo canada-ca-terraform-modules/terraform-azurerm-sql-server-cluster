@@ -7,9 +7,10 @@ Set-ExecutionPolicy Unrestricted -Force
 #
 # Install required DSC modules before we get started. 
 #
-[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-Install-PackageProvider -Name NuGet -Force
-
+#[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+#Install-PackageProvider -Name NuGet -Force
+#Install-Module -Name SqlServer -AllowClobber -Force
+#Import-Module -Name SqlServer -ErrorAction SilentlyContinue
 #Could install DSC modules this way and not include in zip for smaller packages.  Need to verify which ones were modified.
 #Install-Module -Name ComputerManagementDSC -RequiredVersion 8.4.0 -Force
 
