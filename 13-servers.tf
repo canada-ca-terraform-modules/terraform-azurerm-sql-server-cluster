@@ -30,7 +30,7 @@ module "sqlvm1" {
     ouPath            = var.adConfig.serverOUPath
   }
   tags     = var.tags
-  priority = var.sqlServerConfig.priority
+  #priority = var.sqlServerConfig.priority
   asg      = var.asg
 }
 
@@ -67,7 +67,7 @@ module "sqlvm2" {
   }
   tags     = var.tags
   asg      = var.asg
-  priority = var.sqlServerConfig.priority
+  #priority = var.sqlServerConfig.priority
 }
 
 #Create the SQL Witness.  Could be switched for a blob storage if desired
@@ -104,7 +104,7 @@ module "sqlvmw" {
   data_managed_disk_type = lookup(var.witnessServerConfig, "data_managed_disk_type", "StandardSSD_LRS")
   tags                   = var.tags
   asg                    = var.asg
-  priority               = var.witnessServerConfig.priority
+  #priority               = var.witnessServerConfig.priority
 }
 
 output "sql1" {
