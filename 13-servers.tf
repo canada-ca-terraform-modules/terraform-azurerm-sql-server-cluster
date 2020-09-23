@@ -25,13 +25,12 @@ module "sqlvm1" {
   domainToJoin = {
     domainName        = var.adConfig.domainName
     domainUsername    = var.domainUsername
-    domainPassword    = "Canada123!"
+    domainPassword    = data.azurerm_key_vault_secret.domainAdminPasswordSecret.value
     domainJoinOptions = 3
     ouPath            = var.adConfig.serverOUPath
   }
-  tags = var.tags
-  #priority = var.sqlServerConfig.priority
-  asg = var.asg
+  tags     = var.tags
+  asg      = var.asg
 }
 
 #Create the secondary SQL Server
@@ -61,12 +60,12 @@ module "sqlvm2" {
   domainToJoin = {
     domainName        = var.adConfig.domainName
     domainUsername    = var.domainUsername
-    domainPassword    = "Canada123!"
+    domainPassword    = data.azurerm_key_vault_secret.domainAdminPasswordSecret.value
     domainJoinOptions = 3
     ouPath            = var.adConfig.serverOUPath
   }
-  tags = var.tags
-  asg  = var.asg
+  tags     = var.tags
+  asg      = var.asg
   #priority = var.sqlServerConfig.priority
 }
 
@@ -96,7 +95,7 @@ module "sqlvmw" {
   domainToJoin = {
     domainName        = var.adConfig.domainName
     domainUsername    = var.domainUsername
-    domainPassword    = "Canada123!"
+    domainPassword    = data.azurerm_key_vault_secret.domainAdminPasswordSecret.value
     domainJoinOptions = 3
     ouPath            = var.adConfig.serverOUPath
   }
