@@ -295,6 +295,12 @@ For a list of image skus run the following in Powershell:
 Get-AzureRmVMImageSku -Location "canadacentral"-Publisher "MicrosoftSQLServer" -Offer "SQL2016SP2-WS2016" | Select Skus
 ```
 
+It is recommended to use prenium storage only.
+
+## Uninstall
+
+Uninstalling just the SQL does not remove all the AD objects. They must be done manually.
+
 ## Future Enhancements
 
 - Option for moving the cluster to an Azure Blob
