@@ -27,7 +27,7 @@ module "sqlvm1" {
     domainUsername    = var.domainUsername
     domainPassword    = "Canada123!"
     domainJoinOptions = 3
-    ouPath            = ""
+    ouPath            = var.adConfig.serverOUPath
   }
   tags = var.tags
   asg  = var.asg
@@ -62,7 +62,7 @@ module "sqlvm2" {
     domainUsername    = var.domainUsername
     domainPassword    = "Canada123!"
     domainJoinOptions = 3
-    ouPath            = ""
+    ouPath            = var.adConfig.serverOUPath
   }
   tags = var.tags
   asg  = var.asg
@@ -97,7 +97,7 @@ module "sqlvmw" {
     domainUsername    = var.domainUsername
     domainPassword    = "Canada123!"
     domainJoinOptions = 3
-    ouPath            = ""
+    ouPath            = var.adConfig.serverOUPath
   }
   os_managed_disk_type   = lookup(var.witnessServerConfig, "os_managed_disk_type", "StandardSSD_LRS")
   data_managed_disk_type = lookup(var.witnessServerConfig, "data_managed_disk_type", "StandardSSD_LRS")
