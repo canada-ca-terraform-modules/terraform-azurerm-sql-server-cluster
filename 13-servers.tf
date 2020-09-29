@@ -25,12 +25,12 @@ module "sqlvm1" {
   domainToJoin = {
     domainName        = var.adConfig.domainName
     domainUsername    = var.domainUsername
-    domainPassword    = data.azurerm_key_vault_secret.domainAdminPasswordSecret.value
+    domainPassword    = "Canada123!"
     domainJoinOptions = 3
-    ouPath            = var.adConfig.serverOUPath
+    ouPath            = ""
   }
-  tags     = var.tags
-  asg      = var.asg
+  tags = var.tags
+  asg  = var.asg
 }
 
 #Create the secondary SQL Server
@@ -60,12 +60,12 @@ module "sqlvm2" {
   domainToJoin = {
     domainName        = var.adConfig.domainName
     domainUsername    = var.domainUsername
-    domainPassword    = data.azurerm_key_vault_secret.domainAdminPasswordSecret.value
+    domainPassword    = "Canada123!"
     domainJoinOptions = 3
-    ouPath            = var.adConfig.serverOUPath
+    ouPath            = ""
   }
-  tags     = var.tags
-  asg      = var.asg
+  tags = var.tags
+  asg  = var.asg
   #priority = var.sqlServerConfig.priority
 }
 
@@ -95,9 +95,9 @@ module "sqlvmw" {
   domainToJoin = {
     domainName        = var.adConfig.domainName
     domainUsername    = var.domainUsername
-    domainPassword    = data.azurerm_key_vault_secret.domainAdminPasswordSecret.value
+    domainPassword    = "Canada123!"
     domainJoinOptions = 3
-    ouPath            = var.adConfig.serverOUPath
+    ouPath            = ""
   }
   os_managed_disk_type   = lookup(var.witnessServerConfig, "os_managed_disk_type", "StandardSSD_LRS")
   data_managed_disk_type = lookup(var.witnessServerConfig, "data_managed_disk_type", "StandardSSD_LRS")
