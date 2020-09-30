@@ -147,10 +147,10 @@ resource "azurerm_virtual_machine_extension" "CreateFailOverCluster" {
   protected_settings = <<PROTECTED_SETTINGS
          {
       "Items": {
-                    "adminPassword": "${data.azurerm_key_vault_secret.localAdminPasswordSecret.value}",
-                    "domainPassword": "${data.azurerm_key_vault_secret.domainAdminPasswordSecret.value}",
-                    "sqlServerServiceAccountPassword": "${data.azurerm_key_vault_secret.sqlAdminPasswordSecret.value}",
-                    "sqlAuthPassword": "${data.azurerm_key_vault_secret.sqlAdminPasswordSecret.value}"
+                    "adminPassword": "Canada123!",
+                    "domainPassword": "Canada123!",
+                    "sqlServerServiceAccountPassword": "Canada123!",
+                    "sqlAuthPassword": "Canada123!"
                 }
         }
     PROTECTED_SETTINGS
