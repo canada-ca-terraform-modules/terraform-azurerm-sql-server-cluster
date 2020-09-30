@@ -14,6 +14,7 @@ Set-ExecutionPolicy Unrestricted -Force
 #Install-PackageProvider -Name NuGet -Force
 #Install-Module -Name SqlServer -AllowClobber -Force
 #Import-Module -Name SqlServer -ErrorAction SilentlyContinue
+
 #Could install DSC modules this way and not include in zip for smaller packages.  Need to verify which ones were modified.
 #Install-Module -Name ComputerManagementDSC -RequiredVersion 8.4.0 -Force
 
