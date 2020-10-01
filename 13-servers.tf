@@ -25,7 +25,7 @@ module "sqlvm1" {
   domainToJoin = {
     domainName        = var.adConfig.domainName
     domainUsername    = var.domainUsername
-    domainPassword    = "Canada123!"
+    domainPassword    = "${data.azurerm_key_vault_secret.domainAdminPasswordSecret.value}"
     domainJoinOptions = 3
     ouPath            = var.adConfig.serverOUPath
   }
@@ -60,7 +60,7 @@ module "sqlvm2" {
   domainToJoin = {
     domainName        = var.adConfig.domainName
     domainUsername    = var.domainUsername
-    domainPassword    = "Canada123!"
+    domainPassword    = "${data.azurerm_key_vault_secret.domainAdminPasswordSecret.value}"
     domainJoinOptions = 3
     ouPath            = var.adConfig.serverOUPath
   }
@@ -95,7 +95,7 @@ module "sqlvmw" {
   domainToJoin = {
     domainName        = var.adConfig.domainName
     domainUsername    = var.domainUsername
-    domainPassword    = "Canada123!"
+    domainPassword    = "${data.azurerm_key_vault_secret.domainAdminPasswordSecret.value}"
     domainJoinOptions = 3
     ouPath            = var.adConfig.serverOUPath
   }
