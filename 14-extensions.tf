@@ -162,7 +162,7 @@ resource "azurerm_virtual_machine_extension" "JoinFailOverCluster" {
   publisher            = "Microsoft.Powershell"
   type                 = "DSC"
   type_handler_version = "2.71"
-  depends_on           = [azurerm_virtual_machine_extension.PrepareAlwaysOn, module.sqlvm2, azurerm_template_deployment.sqlvm1, azurerm_template_deployment.sqlvm2]
+  depends_on           = [azurerm_virtual_machine_extension.PrepareAlwaysOn, module.sqlvm2, azurerm_template_deployment.sqlvm1, azurerm_template_deployment.sqlvm2, azurerm_virtual_machine_extension.CreateFailOverCluster]
   timeouts {
     create = "2h"
     delete = "2h"
