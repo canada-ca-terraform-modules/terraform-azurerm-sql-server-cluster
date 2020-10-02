@@ -13,7 +13,7 @@ resource "azurerm_virtual_machine_extension" "CreateFileShare" {
   }
   settings           = <<SETTINGS
             {
-                "modulesURL": "https://raw.githubusercontent.com/canada-ca-terraform-modules/terraform-azurerm-sql-server-cluster/20200916.1/DSC/CreateFileShareWitness.ps1.zip",
+                "modulesURL": "https://raw.githubusercontent.com/canada-ca-terraform-modules/terraform-azurerm-sql-server-cluster/20200916.1/DSC/CreateFileShare.ps1.zip",
                     "configurationFunction": "CreateFileShare.ps1\\CreateFileShare",
                     "properties": {
                         "domainName": "${var.adConfig.domainName}",
