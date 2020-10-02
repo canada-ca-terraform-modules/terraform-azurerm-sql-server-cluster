@@ -157,7 +157,7 @@ resource "azurerm_virtual_machine_extension" "CreateFailOverCluster" {
 }
 
 resource "azurerm_virtual_machine_extension" "JoinFailOverCluster" {
-  name                 = "configuringAlwaysOn"
+  name                 = "JoinFailOverCluster"
   virtual_machine_id   = module.sqlvm2.id
   publisher            = "Microsoft.Powershell"
   type                 = "DSC"
