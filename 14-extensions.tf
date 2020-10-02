@@ -43,7 +43,7 @@ resource "azurerm_virtual_machine_extension" "PrepareAlwaysOn" {
   publisher            = "Microsoft.Powershell"
   type                 = "DSC"
   type_handler_version = "2.71"
-  depends_on           = [azurerm_virtual_machine_extension.CreateFileShareWitness, module.sqlvm1, azurerm_template_deployment.sqlvm1, azurerm_template_deployment.sqlvm2]
+  depends_on           = [azurerm_virtual_machine_extension.CreateFileShare, module.sqlvm1, azurerm_template_deployment.sqlvm1, azurerm_template_deployment.sqlvm2]
   timeouts {
     create = "2h"
     delete = "2h"
