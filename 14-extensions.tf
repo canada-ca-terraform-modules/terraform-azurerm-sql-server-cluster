@@ -29,7 +29,7 @@ resource "azurerm_virtual_machine_extension" "CreateFileShare" {
   protected_settings = <<PROTECTED_SETTINGS
          {
       "Items": {
-                        "domainPassword": "var.keyVaultConfig.domainAdminPasswordSecret"
+                        "domainPassword": "${data.azurerm_key_vault_secret.domainAdminPasswordSecret.value}"
                 }
         }
     PROTECTED_SETTINGS
@@ -77,9 +77,9 @@ resource "azurerm_virtual_machine_extension" "PrepareAlwaysOn" {
   protected_settings = <<PROTECTED_SETTINGS
          {
       "Items": {
-                        "domainPassword": "var.keyVaultConfig.domainAdminPasswordSecret",
-                        "adminPassword": "${var.sqlServerConfig.}",
-                        "sqlServerServiceAccountPassword": "${var.sqlServerConfig.sqlBackupConfig.password}"
+                        "domainPassword": "${data.azurerm_key_vault_secret.domainAdminPasswordSecret.value}",
+                        "adminPassword": "${data.azurerm_key_vault_secret.localAdminPasswordSecret.value}",
+                        "sqlServerServiceAccountPassword": "${data.azurerm_key_vault_secret.sqlAdminPasswordSecret.value}"
                 }
         }
     PROTECTED_SETTINGS
@@ -147,10 +147,10 @@ resource "azurerm_virtual_machine_extension" "CreateFailOverCluster" {
   protected_settings = <<PROTECTED_SETTINGS
          {
       "Items": {
-                    "adminPassword": "${var.sqlServerConfig.}",
-                    "domainPassword": "var.keyVaultConfig.domainAdminPasswordSecret",
-                    "sqlServerServiceAccountPassword": "${var.sqlServerConfig.sqlBackupConfig.password}",
-                    "sqlAuthPassword": "${var.sqlServerConfig.sqlBackupConfig.password}"
+                    "adminPassword": "${data.azurerm_key_vault_secret.localAdminPasswordSecret.value}",
+                    "domainPassword": "${data.azurerm_key_vault_secret.domainAdminPasswordSecret.value}",
+                    "sqlServerServiceAccountPassword": "${data.azurerm_key_vault_secret.sqlAdminPasswordSecret.value}",
+                    "sqlAuthPassword": "${data.azurerm_key_vault_secret.sqlAdminPasswordSecret.value}"
                 }
         }
     PROTECTED_SETTINGS
@@ -218,10 +218,10 @@ resource "azurerm_virtual_machine_extension" "JoinFailOverCluster" {
   protected_settings = <<PROTECTED_SETTINGS
          {
       "Items": {
-                    "adminPassword": "${var.sqlServerConfig.sqlBackupConfig.password}",
-                    "domainPassword": "${var.sqlServerConfig.sqlBackupConfig.password}",
-                    "sqlServerServiceAccountPassword": "${var.sqlServerConfig.sqlBackupConfig.password}",
-                    "sqlAuthPassword": "${var.sqlServerConfig.sqlBackupConfig.password}"
+                    "adminPassword": "${data.azurerm_key_vault_secret.localAdminPasswordSecret.value}",
+                    "domainPassword": "${data.azurerm_key_vault_secret.domainAdminPasswordSecret.value}",
+                    "sqlServerServiceAccountPassword": "${data.azurerm_key_vault_secret.sqlAdminPasswordSecret.value}",
+                    "sqlAuthPassword": "${data.azurerm_key_vault_secret.sqlAdminPasswordSecret.value}"
                 }
         }
     PROTECTED_SETTINGS
