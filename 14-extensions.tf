@@ -172,7 +172,7 @@ resource "azurerm_virtual_machine_extension" "JoinFailOverCluster" {
   settings           = <<SETTINGS
             {
                 
-                "modulesURL": "https://raw.githubusercontent.com/canada-ca-terraform-modules/terraform-azurerm-sql-server-cluster/20200916.1/DSC/CreateFailoverCluster.ps1.zip",
+                "modulesURL": "https://raw.githubusercontent.com/canada-ca-terraform-modules/terraform-azurerm-sql-server-cluster/20200916.1/DSC/SecondaryFailoverCluster.ps1.zip",
                 "configurationFunction": "SecondaryFailoverCluster.ps1\\SecondaryFailoverCluster",
                 "properties": {
                     "domainName": "${var.adConfig.domainName}",
