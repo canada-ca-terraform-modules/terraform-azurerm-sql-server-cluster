@@ -70,7 +70,8 @@ resource "azurerm_virtual_machine_extension" "PrepareAlwaysOn" {
                     "NumberOfDisks": "${var.sqlServerConfig.dataDisks.numberOfSqlVMDisks}",
                     "WorkloadType": "${var.sqlServerConfig.workloadType}",
                     "serverOUPath": "${var.adConfig.serverOUPath}",
-                    "accountOUPath": "${var.adConfig.accountOUPath}"
+                    "accountOUPath": "${var.adConfig.accountOUPath}",
+                    "ClusterIp": "${var.sqlServerConfig.clusterIp}"
                 }
             }
             SETTINGS
@@ -86,75 +87,75 @@ resource "azurerm_virtual_machine_extension" "PrepareAlwaysOn" {
 }
 
 #Deploy the failover cluster
-resource "azurerm_virtual_machine_extension" "CreateFailOverCluster" {
-  name                 = "configuringAlwaysOn"
-  virtual_machine_id   = module.sqlvm1.id
-  publisher            = "Microsoft.Powershell"
-  type                 = "DSC"
-  type_handler_version = "2.71"
-  depends_on           = [azurerm_virtual_machine_extension.PrepareAlwaysOn, module.sqlvm2, azurerm_template_deployment.sqlvm1, azurerm_template_deployment.sqlvm2]
-  timeouts {
-    create = "2h"
-    delete = "2h"
-  }
-  settings           = <<SETTINGS
-            {
-                
-                "modulesURL": "https://raw.githubusercontent.com/canada-ca-terraform-modules/terraform-azurerm-sql-server-cluster/20200916.1/DSC/CreateFailoverCluster.ps1.zip",
-                "configurationFunction": "CreateFailoverCluster.ps1\\CreateFailoverCluster",
-                "properties": {
-                    "domainName": "${var.adConfig.domainName}",
-                    "clusterName": "${local.clusterName}",
-                    "sharePath": "\\\\${module.sqlvmw.name}\\${local.sharePath}",
-                    "nodes": [
-                        "${module.sqlvm1.name}",
-                        "${module.sqlvm2.name}"
-                    ],
-                    "sqlAlwaysOnEndpointName": "${local.sqlAOEPName}",
-                    "sqlAlwaysOnAvailabilityGroupName": "${local.sqlAOAGName}",
-                    "sqlAlwaysOnAvailabilityGroupListenerName": "${local.sqlAOListenerName}",
-                    "SqlAlwaysOnAvailabilityGroupListenerPort": "${var.sqlServerConfig.sqlAOListenerPort}",
-                    "lbName": "${var.sqlServerConfig.sqlLBName}",
-                    "lbAddress": "${var.sqlServerConfig.sqlLBIPAddress}",
-                    "primaryReplica": "${module.sqlvm2.name}",
-                    "secondaryReplica": "${module.sqlvm1.name}",
-                    "dnsServerName": "${var.dnsServerName}",
-                    "adminCreds": {
-                        "userName": "${var.adminUsername}",
-                        "password": "privateSettingsRef:adminPassword"
-                    },
-                    "domainCreds": {
-                        "userName": "${var.domainUsername}",
-                        "password": "privateSettingsRef:domainPassword"
-                    },
-                    "sqlServiceCreds": {
-                        "userName": "${var.sqlServerConfig.sqlServerServiceAccountUserName}",
-                        "password": "privateSettingsRef:sqlServerServiceAccountPassword"
-                    },
-                    "SQLAuthCreds": {
-                        "userName": "sqlsa",
-                        "password": "privateSettingsRef:sqlAuthPassword"
-                    },
-                    "NumberOfDisks": "${var.sqlServerConfig.dataDisks.numberOfSqlVMDisks}",
-                    "WorkloadType": "${var.sqlServerConfig.workloadType}",
-                    "serverOUPath": "${var.adConfig.serverOUPath}",
-                    "accountOUPath": "${var.adConfig.accountOUPath}",
-                    "DatabaseNames": "${var.sqlServerConfig.sqlDatabases}",
-                    "ClusterIp": "${var.sqlServerConfig.clusterIp}"
-                }
-            }
-            SETTINGS
-  protected_settings = <<PROTECTED_SETTINGS
-         {
-      "Items": {
-                    "adminPassword": "${data.azurerm_key_vault_secret.localAdminPasswordSecret.value}",
-                    "domainPassword": "${data.azurerm_key_vault_secret.domainAdminPasswordSecret.value}",
-                    "sqlServerServiceAccountPassword": "${data.azurerm_key_vault_secret.sqlAdminPasswordSecret.value}",
-                    "sqlAuthPassword": "${data.azurerm_key_vault_secret.sqlAdminPasswordSecret.value}"
-                }
-        }
-    PROTECTED_SETTINGS
-}
+# resource "azurerm_virtual_machine_extension" "CreateFailOverCluster" {
+#   name                 = "configuringAlwaysOn"
+#   virtual_machine_id   = module.sqlvm1.id
+#   publisher            = "Microsoft.Powershell"
+#   type                 = "DSC"
+#   type_handler_version = "2.71"
+#   depends_on           = [azurerm_virtual_machine_extension.PrepareAlwaysOn, module.sqlvm2, azurerm_template_deployment.sqlvm1, azurerm_template_deployment.sqlvm2]
+#   timeouts {
+#     create = "2h"
+#     delete = "2h"
+#   }
+#   settings           = <<SETTINGS
+#             {
+
+#                 "modulesURL": "https://raw.githubusercontent.com/canada-ca-terraform-modules/terraform-azurerm-sql-server-cluster/20200916.1/DSC/CreateFailoverCluster.ps1.zip",
+#                 "configurationFunction": "CreateFailoverCluster.ps1\\CreateFailoverCluster",
+#                 "properties": {
+#                     "domainName": "${var.adConfig.domainName}",
+#                     "clusterName": "${local.clusterName}",
+#                     "sharePath": "\\\\${module.sqlvmw.name}\\${local.sharePath}",
+#                     "nodes": [
+#                         "${module.sqlvm1.name}",
+#                         "${module.sqlvm2.name}"
+#                     ],
+#                     "sqlAlwaysOnEndpointName": "${local.sqlAOEPName}",
+#                     "sqlAlwaysOnAvailabilityGroupName": "${local.sqlAOAGName}",
+#                     "sqlAlwaysOnAvailabilityGroupListenerName": "${local.sqlAOListenerName}",
+#                     "SqlAlwaysOnAvailabilityGroupListenerPort": "${var.sqlServerConfig.sqlAOListenerPort}",
+#                     "lbName": "${var.sqlServerConfig.sqlLBName}",
+#                     "lbAddress": "${var.sqlServerConfig.sqlLBIPAddress}",
+#                     "primaryReplica": "${module.sqlvm2.name}",
+#                     "secondaryReplica": "${module.sqlvm1.name}",
+#                     "dnsServerName": "${var.dnsServerName}",
+#                     "adminCreds": {
+#                         "userName": "${var.adminUsername}",
+#                         "password": "privateSettingsRef:adminPassword"
+#                     },
+#                     "domainCreds": {
+#                         "userName": "${var.domainUsername}",
+#                         "password": "privateSettingsRef:domainPassword"
+#                     },
+#                     "sqlServiceCreds": {
+#                         "userName": "${var.sqlServerConfig.sqlServerServiceAccountUserName}",
+#                         "password": "privateSettingsRef:sqlServerServiceAccountPassword"
+#                     },
+#                     "SQLAuthCreds": {
+#                         "userName": "sqlsa",
+#                         "password": "privateSettingsRef:sqlAuthPassword"
+#                     },
+#                     "NumberOfDisks": "${var.sqlServerConfig.dataDisks.numberOfSqlVMDisks}",
+#                     "WorkloadType": "${var.sqlServerConfig.workloadType}",
+#                     "serverOUPath": "${var.adConfig.serverOUPath}",
+#                     "accountOUPath": "${var.adConfig.accountOUPath}",
+#                     "DatabaseNames": "${var.sqlServerConfig.sqlDatabases}",
+#                     "ClusterIp": "${var.sqlServerConfig.clusterIp}"
+#                 }
+#             }
+#             SETTINGS
+#   protected_settings = <<PROTECTED_SETTINGS
+#          {
+#       "Items": {
+#                     "adminPassword": "${data.azurerm_key_vault_secret.localAdminPasswordSecret.value}",
+#                     "domainPassword": "${data.azurerm_key_vault_secret.domainAdminPasswordSecret.value}",
+#                     "sqlServerServiceAccountPassword": "${data.azurerm_key_vault_secret.sqlAdminPasswordSecret.value}",
+#                     "sqlAuthPassword": "${data.azurerm_key_vault_secret.sqlAdminPasswordSecret.value}"
+#                 }
+#         }
+#     PROTECTED_SETTINGS
+# }
 
 resource "azurerm_virtual_machine_extension" "JoinFailOverCluster" {
   name                 = "JoinFailOverCluster"
