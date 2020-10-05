@@ -78,8 +78,8 @@ resource "azurerm_virtual_machine_extension" "PrepareAlwaysOn" {
          {
       "Items": {
                         "domainPassword": "var.keyVaultConfig.domainAdminPasswordSecret",
-                        "adminPassword": "${var.keyVaultConfig.localAdminPasswordSecret}",
-                        "sqlServerServiceAccountPassword": "${var.sqlServerConfig.sqlServerServiceAccountPasswordSecret}"
+                        "adminPassword": "${var.sqlServerConfig.}",
+                        "sqlServerServiceAccountPassword": "${var.sqlServerConfig.sqlBackupConfig.password}"
                 }
         }
     PROTECTED_SETTINGS
@@ -147,10 +147,10 @@ resource "azurerm_virtual_machine_extension" "CreateFailOverCluster" {
   protected_settings = <<PROTECTED_SETTINGS
          {
       "Items": {
-                    "adminPassword": "${var.keyVaultConfig.localAdminPasswordSecret}",
+                    "adminPassword": "${var.sqlServerConfig.}",
                     "domainPassword": "var.keyVaultConfig.domainAdminPasswordSecret",
-                    "sqlServerServiceAccountPassword": "${var.sqlServerConfig.sqlServerServiceAccountPasswordSecret}",
-                    "sqlAuthPassword": "${var.sqlServerConfig.sqlServerServiceAccountPasswordSecret}"
+                    "sqlServerServiceAccountPassword": "${var.sqlServerConfig.sqlBackupConfig.password}",
+                    "sqlAuthPassword": "${var.sqlServerConfig.sqlBackupConfig.password}"
                 }
         }
     PROTECTED_SETTINGS
@@ -218,10 +218,10 @@ resource "azurerm_virtual_machine_extension" "JoinFailOverCluster" {
   protected_settings = <<PROTECTED_SETTINGS
          {
       "Items": {
-                    "adminPassword": "${var.keyVaultConfig.localAdminPasswordSecret}",
-                    "domainPassword": "${var.keyVaultConfig.domainAdminPasswordSecret}",
-                    "sqlServerServiceAccountPassword": "${var.sqlServerConfig.sqlServerServiceAccountPasswordSecret}",
-                    "sqlAuthPassword": "${var.sqlServerConfig.sqlServerServiceAccountPasswordSecret}"
+                    "adminPassword": "${var.sqlServerConfig.sqlBackupConfig.password}",
+                    "domainPassword": "${var.sqlServerConfig.sqlBackupConfig.password}",
+                    "sqlServerServiceAccountPassword": "${var.sqlServerConfig.sqlBackupConfig.password}",
+                    "sqlAuthPassword": "${var.sqlServerConfig.sqlBackupConfig.password}"
                 }
         }
     PROTECTED_SETTINGS
