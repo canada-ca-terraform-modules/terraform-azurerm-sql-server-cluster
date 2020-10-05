@@ -71,6 +71,7 @@ resource "azurerm_virtual_machine_extension" "PrepareAlwaysOn" {
                     "WorkloadType": "${var.sqlServerConfig.workloadType}",
                     "serverOUPath": "${var.adConfig.serverOUPath}",
                     "accountOUPath": "${var.adConfig.accountOUPath}",
+                    "clusterName": "${local.clusterName}",
                     "ClusterIp": "${var.sqlServerConfig.clusterIp}"
                 }
             }
