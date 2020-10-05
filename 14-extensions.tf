@@ -214,11 +214,11 @@ resource "azurerm_virtual_machine_extension" "JoinFailOverCluster" {
                     "DatabaseNames": "${var.sqlServerConfig.sqlDatabases}",
                     "ClusterIp": "${var.sqlServerConfig.clusterIp}",
                     "SecondaryNode": "$true"
+                },
+                "configurationData": {
+                  "url": "https://raw.githubusercontent.com/canada-ca-terraform-modules/terraform-azurerm-sql-server-cluster/20200916.1/DSC/config.psd1"
                 }
-            },
-            "configurationData": {
-               "url": "https://raw.githubusercontent.com/canada-ca-terraform-modules/terraform-azurerm-sql-server-cluster/20200916.1/DSC/config.psd1"
-            }
+            }            
             SETTINGS
   protected_settings = <<PROTECTED_SETTINGS
          {
